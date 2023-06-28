@@ -13,8 +13,6 @@ const app = express();
 //     db.product.create(p);
 // })
 
-
-
 app.use(json());
 app.use(urlencoded({
     extended:true
