@@ -10,7 +10,7 @@ const app = express();
 
 // products.forEach((p)=>{
 //     //console.log(p);
-//     db.product.create(p);
+//     db.Product.create(p);
 // })
 
 app.use(json());
@@ -18,9 +18,10 @@ app.use(urlencoded({
     extended:true
 }))
 
+const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io']
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:4200'
+    origin: allowedOrigins
 }))
 
 app.use((
