@@ -68,6 +68,8 @@ export const loginUser: RequestHandler = async (
             message: "Ingreso exitoso",
             token: accessToken
         })
+        console.log(accessToken);
+        
 
     } catch (error) {
         res.status(500).json({

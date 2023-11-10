@@ -36,13 +36,15 @@ app.use((
 })
 
 app.use('/api', router); 
+
 db.sequelize.sync().then(()=>{
     app.listen(3000, ()=>{
         console.log("Se conecto correctamente");
-        
     })
 }).catch((e:Error)=>{
-    console.log(e.message);
+    console.log("here"); 
     
+    console.log(e.message);  
 })
 
+export default app;
