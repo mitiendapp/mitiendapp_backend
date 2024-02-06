@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-    "start": "node app.js"
+    "start": "node app.js",
+    "build":"tsc"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
