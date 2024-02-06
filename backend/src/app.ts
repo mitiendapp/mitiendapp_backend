@@ -5,6 +5,7 @@ import { json, urlencoded } from 'body-parser';
 import './auth/passport'; 
 import cors from 'cors';
 import { products } from './seeders/products';
+import morgan from 'morgan';
 
 const app = express();
 
@@ -17,6 +18,16 @@ app.use(json());
 app.use(urlencoded({
     extended:true
 }))
+
+app.use(morgan((tokens, req, res) => {
+    return [
+      tokens.method(req, res),
+      tokens.url(req, res),
+      tokens.status(req, res),
+      tokens.res(req, res, 'content-length'), '-',
+      tokens['response-time'](req, res), 'ms'
+    ].join(' ');
+  }));
 
 const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io']
 app.use(cors({
