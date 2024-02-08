@@ -16,7 +16,9 @@ exports.createProduct = exports.getProductById = exports.updateProductHandler = 
 const models_1 = __importDefault(require("../models"));
 const getProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("aqui si entra");
         const products = yield models_1.default.Product.findAll();
+        console.log("aqui no entra");
         console.log(products);
         if (!products)
             return res.sendStatus(404);

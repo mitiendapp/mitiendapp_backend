@@ -9,8 +9,14 @@ export const getProducts = async (
     next: NextFunction
 ) => {
     try {
+        console.log("aqui si entra");
+        
         const products = await db.Product.findAll();
+        console.log("aqui no entra");
+        
         console.log(products);
+
+
         
         if (!products) return res.sendStatus(404)
         return res.status(200).json({
