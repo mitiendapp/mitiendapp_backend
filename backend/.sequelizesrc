@@ -1,4 +1,5 @@
 // .sequelizerc
+//se cambio
 
 const path = require('./build/config/config.json');
 
