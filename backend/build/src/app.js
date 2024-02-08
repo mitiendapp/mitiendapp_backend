@@ -28,7 +28,7 @@ app.use((0, morgan_1.default)((tokens, req, res) => {
         tokens['response-time'](req, res), 'ms'
     ].join(' ');
 }));
-const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io'];
+const allowedOrigins = ['http://localhost:4200', 'https://pruebabackend1.onrender.com', 'https://d43d-152-202-200-21.ngrok.io'];
 app.use((0, cors_1.default)({
     credentials: true,
     origin: allowedOrigins

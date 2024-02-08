@@ -17,6 +17,7 @@ const models_1 = __importDefault(require("../models"));
 const getProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const products = yield models_1.default.Product.findAll();
+        console.log(products);
         if (!products)
             return res.sendStatus(404);
         return res.status(200).json({
