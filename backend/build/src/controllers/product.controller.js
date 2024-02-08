@@ -26,7 +26,8 @@ const getProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
     catch (e) {
         res.status(500).json({
-            message: "Ocurrió un error interno"
+            message: "Ocurrió un error interno",
+            error: e
         });
         next(e);
     }

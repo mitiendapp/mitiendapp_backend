@@ -18,7 +18,8 @@ export const getProducts = async (
         })
     } catch (e: any) {
         res.status(500).json({
-            message: "Ocurrió un error interno"
+            message: "Ocurrió un error interno",
+            error: e
         })
         next(e);
     }
