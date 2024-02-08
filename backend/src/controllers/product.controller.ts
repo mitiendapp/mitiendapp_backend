@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import db from "../models";
 
 
+
 export const getProducts = async (
     req: Request,
     res: Response,
