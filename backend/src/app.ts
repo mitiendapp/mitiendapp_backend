@@ -1,6 +1,6 @@
 import express from 'express';
 import db from './models/index';
-import router from './routes/routes';
+import router from './routes/router';
 import { json, urlencoded } from 'body-parser';
 import './auth/passport'; 
 import cors from 'cors';

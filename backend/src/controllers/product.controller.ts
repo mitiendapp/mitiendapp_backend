@@ -45,7 +45,15 @@ export const updateProductHandler = async (
     res:Response,
     next:NextFunction
 )=>{
-    const {id} = req.params ;
+    const id:number = req.body.id;  
+
+    if(!id){
+        return res.status(400).json(
+            {
+                message:"Id missing"    
+            }
+        )
+    }
     await db.Product.update({...req.body},{where: {id} })
     const product = await db.Product.findByPk(id);
     return res.status(200).json(
