@@ -15,6 +15,7 @@ const product_controller_1 = require("../controllers/product.controller");
 const payment_controller_1 = require("../controllers/payment.controller");
 const shoppingcart_controller_1 = require("../controllers/shoppingcart.controller");
 const router = (0, express_1.Router)();
+//--
 router.post('/createClient', client_controller_1.createClient);
 // User routes
 router.post('/user/register', user_controller_1.registerUser);
