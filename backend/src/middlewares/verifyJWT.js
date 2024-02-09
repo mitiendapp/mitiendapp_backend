@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.verifyJWT = void 0;
+const jsonwebtoken_1 = require("jsonwebtoken");
+const verifyJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    console.log("HEADER:", authHeader);
+    if (!(authHeader === null || authHeader === void 0 ? void 0 : authHeader.startsWith('Bearer ')))
+        return res.sendStatus(401);
+    const token = authHeader.split(" ")[1];
+    console.log("TOKEN: ", token);
+    jsonwebtoken_1.default.verify(token, "12345", (err, decoded) => {
+        if (err)
+            return res.status(403).json({
+                message: err
+            });
+        req.email = decoded.UserInfo.email;
+        req.roles = decoded.UserInfo.roles;
+        next();
+    });
+};
+exports.verifyJWT = verifyJWT;

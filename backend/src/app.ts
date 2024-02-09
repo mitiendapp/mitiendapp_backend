@@ -14,6 +14,8 @@ const app = express();
 //     db.Product.create(p);
 // })
 
+
+
 app.use(json());
 app.use(urlencoded({
     extended:true
@@ -21,13 +23,13 @@ app.use(urlencoded({
 
 app.use(morgan((tokens, req, res) => {
     return [
-      tokens.method(req, res),
-      tokens.url(req, res),
-      tokens.status(req, res),
-      tokens.res(req, res, 'content-length'), '-',
-      tokens['response-time'](req, res), 'ms'
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'), '-',
+        tokens['response-time'](req, res), 'ms'
     ].join(' ');
-  }));
+}));
 
 const allowedOrigins = ['http://localhost:4200', 'http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io']
 app.use(cors({
@@ -40,20 +42,21 @@ app.use((
     req:express.Request,
     res:express.Response, 
     next:express.NextFunction,
-)=>{
-    res.status(500).json({
-        message:err.message
+    )=>{
+        res.status(500).json({
+            message:err.message
+        })
     })
-})
-
-app.use('/api', router); 
-db.sequelize.sync().then(()=>{
-    app.listen(3100, ()=>{
-        console.log("Se conecto correctamente");
-        
-    })
-}).catch((e:Error)=>{
-    console.log(e.message);
+    
+    app.use('/api', router); 
+    db.sequelize.sync().then(()=>{
+        app.listen(3100, ()=>{
+            console.log("Se conecto correctamente");
+            console.log(db.Product.findAll());
+            
+        })
+    }).catch((e:Error)=>{
+        console.log(e.message);
     
 })
 

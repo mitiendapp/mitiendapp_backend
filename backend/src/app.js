@@ -1,15 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const index_1 = __importDefault(require("./models/index"));
-const routes_1 = __importDefault(require("./routes/routes"));
+const express_1 = require("express");
+const index_1 = require("./models/index");
+const routes_1 = require("./routes/routes");
 const body_parser_1 = require("body-parser");
 require("./auth/passport");
-const cors_1 = __importDefault(require("cors"));
-const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = require("cors");
+const morgan_1 = require("morgan");
 const app = (0, express_1.default)();
 // products.forEach((p)=>{
 //     //console.log(p);
