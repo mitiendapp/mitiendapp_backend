@@ -9,9 +9,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../../config/config.json');
 const db = {};
 // import dotenv from 'dotenv';
-//$$$$$
-//...........
-//´´´´
+//:#:#:#:#:#:#
 // dotenv.config();
 let sequelize;
 if (config.use_env_variable) {
