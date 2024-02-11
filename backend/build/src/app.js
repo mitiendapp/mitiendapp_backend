@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
 });
 app.use('/api', routes_1.default);
 index_1.default.sequelize.sync().then(() => {
-    app.listen(process.env.PORT || 3100, () => {
+    app.listen(3100, () => {
         console.log("Se conecto correctamente");
     });
 }).catch((e) => {
