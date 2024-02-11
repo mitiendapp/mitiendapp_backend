@@ -11,6 +11,13 @@
         "src": "/(.*)",
         "dest": "/api/product"
       }
+    ],
+    "rewrites": [
+      {
+         "source": "/api/(.*)",
+         "destination":"/api"
+
+      }
     ]
   }
   
