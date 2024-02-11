@@ -1,18 +1,19 @@
 {
+    "version": 2,
     "builds": [
-        {
-            "src":"src/app.ts",
-            "use":"@vercel/node",
-            
-        }
+      {
+        "src": "src/app.ts",
+        "use": "@vercel/node"
+      }
     ],
-    "dev": {
-        "command": "npm run dev"
-      },
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest":"/"
-        }
-    ]
-}
+      {
+        "src": "/(.*)",
+        "dest": "/"
+      }
+    ],
+    "development": {
+      "port": 3100
+    }
+  }
+  
