@@ -1,5 +1,12 @@
 {
     "version": 2,
+    "rewrites": [
+      {
+         "source": "/api/(.*)",
+         "destination":"/api"
+
+      }
+    ],
     "builds": [
       {
         "src": "./src/app.ts",
@@ -9,15 +16,9 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "/api/product"
-      }
-    ],
-    "rewrites": [
-      {
-         "source": "/api/(.*)",
-         "destination":"/api"
-
+        "dest": "./src/app.ts"
       }
     ]
+ 
   }
   
