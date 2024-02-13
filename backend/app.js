@@ -2,6 +2,7 @@ var express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+app.use(cors())
 var app = express()
   .use(cors({
     credentials: true, origin: 'https://65cafd61010671588f07db31--poetic-centaur-7a9031.netlify.app/'
