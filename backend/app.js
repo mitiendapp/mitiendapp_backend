@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 var app = express()
   .use(cors({
-    credentials: true, origin: 'https://pruebabackend1.onrender.com'
+    credentials: true, origin: 'https://65cafd61010671588f07db31--poetic-centaur-7a9031.netlify.app/'
   }))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }));
