@@ -2,10 +2,9 @@ var express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-app.use(cors())
 var app = express()
   .use(cors({
-    credentials: true, origin: 'https://65cafd61010671588f07db31--poetic-centaur-7a9031.netlify.app/'
+    credentials: true, origin: ['http://localhost:4200','https://pruebabackend1.onrender.com']
   }))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }));
