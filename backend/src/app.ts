@@ -20,7 +20,7 @@ app.use(urlencoded({
 
 app.use(cors({
     credentials: true,
-    origin:['*']
+    origin:['http://localhost:4200','https://mitiendapp23.netlify.app/']
 
 }))
 /*
