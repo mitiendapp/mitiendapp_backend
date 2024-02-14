@@ -6,7 +6,7 @@ import './auth/passport';
 import cors from 'cors';
 import { products } from './seeders/products';
 
-const app = express();
+const app = express(); 
 
 // products.forEach((p)=>{
 //     //console.log(p);
