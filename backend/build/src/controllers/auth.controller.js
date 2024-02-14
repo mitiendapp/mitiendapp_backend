@@ -18,7 +18,6 @@ const models_1 = __importDefault(require("../models"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    console.log(email, password);
     if (!email || !password)
         return res.status(400).json({ "message": "Correo y contraseña son requeridos" });
     const user = yield models_1.default.User.findOne({
@@ -40,7 +39,8 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         });
     }
     try {
-        const userRoles = JSON.parse(user.roles);
+        console.log("Hola ", user.roles);
+        const userRoles = JSON.stringify(user.roles);
         const roles = Object.values(userRoles);
         const accessToken = jsonwebtoken_1.default.sign({
             UserInfo: {
