@@ -43,7 +43,12 @@ const deleteProductHandler = (req, res, next) => __awaiter(void 0, void 0, void 
 });
 exports.deleteProductHandler = deleteProductHandler;
 const updateProductHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.body.id;
+    if (!id) {
+        return res.status(400).json({
+            message: "Id missing"
+        });
+    }
     yield models_1.default.Product.update(Object.assign({}, req.body), { where: { id } });
     const product = yield models_1.default.Product.findByPk(id);
     return res.status(200).json({

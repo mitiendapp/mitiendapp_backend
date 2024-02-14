@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const index_1 = __importDefault(require("./models/index"));
-const routes_1 = __importDefault(require("./routes/routes"));
+const router_1 = __importDefault(require("./routes/router"));
 const body_parser_1 = require("body-parser");
 require("./auth/passport");
 const cors_1 = __importDefault(require("cors"));
@@ -18,7 +18,7 @@ app.use((0, body_parser_1.json)());
 app.use((0, body_parser_1.urlencoded)({
     extended: true
 }));
-const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io'];
+const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io', 'https://mitiendapp2.netlify.app'];
 app.use((0, cors_1.default)({
     credentials: true,
     origin: allowedOrigins
@@ -28,7 +28,7 @@ app.use((err, req, res, next) => {
         message: err.message
     });
 });
-app.use('/api', routes_1.default);
+app.use('/api', router_1.default);
 index_1.default.sequelize.sync().then(() => {
     app.listen(3000, () => {
         console.log("Se conecto correctamente");
