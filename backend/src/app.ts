@@ -6,7 +6,7 @@ import './auth/passport';
 import cors from 'cors';
 import { products } from './seeders/products';
 
-const app = express();
+const app = express(); 
 
 // products.forEach((p)=>{
 //     //console.log(p);
@@ -18,7 +18,7 @@ app.use(urlencoded({
     extended:true
 }))
 
-const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io']
+const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io','https://mitiendapp2.netlify.app']
 app.use(cors({
     credentials: true,
     origin: allowedOrigins
