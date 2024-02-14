@@ -10,7 +10,8 @@ export const getProducts = async (
     try {
         const products = await db.Product.findAll();
         
-        if (!products) return res.sendStatus(404)
+        if (!products) return res.sendStatus(404);
+        res.append('Access-Control-Allow-Origin', ['*']);
         return res.status(200).json({
             message: "Productos encontrados satisfactoriamente",
             data: products
