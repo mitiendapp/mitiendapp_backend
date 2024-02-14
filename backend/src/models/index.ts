@@ -10,6 +10,7 @@ const config = require('../../config/config.json');
 const db:any = {};
 // import dotenv from 'dotenv';
 //:#:#:#:#:#:#
+//h
 //
 // dotenv.config();
 let sequelize: any;
