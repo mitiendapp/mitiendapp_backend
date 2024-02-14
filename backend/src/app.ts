@@ -30,6 +30,7 @@ app.use((
     res:express.Response, 
     next:express.NextFunction,
 )=>{
+    res.append('Access-Control-Allow-Origin', ['*']);
     res.status(500).json({
         message:err.message
     })
