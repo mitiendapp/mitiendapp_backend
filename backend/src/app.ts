@@ -18,10 +18,11 @@ app.use(urlencoded({
     extended:true
 }))
 
-const allowedOrigins = ['*','http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io','https://mitiendapp23.netlify.app/api', 'https://mitiendapp23.netlify.app']
+//const allowedOrigins = ['*','http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io','https://mitiendapp23.netlify.app/api', 'https://mitiendapp23.netlify.app']
 app.use(cors({
-    credentials: false,
-    origin: '*'
+    origin: 'https://mitiendapp23.netlify.app',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
 }))
 
 app.use((
@@ -30,22 +31,9 @@ app.use((
     res:express.Response, 
     next:express.NextFunction,
 )=>{
-    res.append('Access-Control-Allow-Origin', ['*']);
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(500).json({
         message:err.message
     })
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
 })
 
 app.use('/api', router); 
