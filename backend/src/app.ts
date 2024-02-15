@@ -19,11 +19,13 @@ app.use(urlencoded({
 }))
 
 //const allowedOrigins = ['*','http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io','https://mitiendapp23.netlify.app/api', 'https://mitiendapp23.netlify.app']
-app.use(cors({
-    origin: 'https://mitiendapp23.netlify.app',
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-}))
+// app.use(cors({
+//     origin: 'https://mitiendapp23.netlify.app',
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true,
+// }))
+
+app.use(cors());
 
 app.use((
     err:Error,
