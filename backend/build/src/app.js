@@ -18,11 +18,13 @@ app.use((0, body_parser_1.json)());
 app.use((0, body_parser_1.urlencoded)({
     extended: true
 }));
-const allowedOrigins = ['http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io', 'https://mitiendapp2.netlify.app'];
-app.use((0, cors_1.default)({
-    credentials: true,
-    origin: allowedOrigins
-}));
+//const allowedOrigins = ['*','http://localhost:4200', ' http://127.0.0.1:4040', 'https://d43d-152-202-200-21.ngrok.io','https://mitiendapp23.netlify.app/api', 'https://mitiendapp23.netlify.app']
+// app.use(cors({
+//     origin: 'https://mitiendapp23.netlify.app',
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true,
+// }))
+app.use((0, cors_1.default)());
 app.use((err, req, res, next) => {
     res.status(500).json({
         message: err.message
