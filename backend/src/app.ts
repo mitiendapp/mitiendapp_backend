@@ -42,9 +42,9 @@ app.use((
 })
 
 app.use('/api', router); 
-
+const PORT= '3500'
 db.sequelize.sync().then(()=>{
-    app.listen(3000, ()=>{
+    app.listen(PORT, ()=>{
         console.log("Se conecto correctamente");
     })
 }).catch((e:Error)=>{

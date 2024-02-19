@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createClient } from "../controllers/client.controller";
+import {createCompany, getAllCcompany, updateCompany,deleteCompany} from "../controllers/company.controller";
 import { registerUser } from "../controllers/user.controller";
 import passport from "passport";
 import { verifyRoles } from "../middlewares/verifyRoles";
@@ -55,6 +56,14 @@ router.get('/order/pending', (req,res)=>{ // pendiente de cambiar
 })
 
 router.post('/order/webhook', receiveWebhook) // pendiente de cambiar
+
+
+//company
+router.post('/companyRegister', createCompany)
+router.get('/getAllCompany',getAllCcompany)
+router.put('/companyUpdate/:document', updateCompany)
+router.delete('/companyDelete/:document',deleteCompany)
+
 
 
 

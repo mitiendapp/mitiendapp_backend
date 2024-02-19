@@ -26,4 +26,17 @@ export const verifyJWT = (
             next();
         }
     )
+
+    jwt.verify(
+        token,
+        "678910",
+        (err:any, decoded:any)=>{
+            if(err) return res.status(403).json({
+                message:err
+            });
+            req.email=decoded.CompanyInfo.email;
+            req.roles=decoded.CompanyInfo.roles
+            next();
+        }
+    )
 }
