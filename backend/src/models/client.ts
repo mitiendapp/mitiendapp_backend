@@ -31,6 +31,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     document: {
       type:DataTypes.STRING,
       allowNull:false,
+      primaryKey:true,
       unique:true,
       validate:{
         notNull:{

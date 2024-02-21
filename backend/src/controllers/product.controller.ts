@@ -10,7 +10,23 @@ export const getProducts = async (
     try {
         const products = await db.Product.findAll();
         
-        if (!products) return res.sendStatus(404)
+        if (!products) return res.sendStatus(404);
+        
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+    // Pass to next layer of middleware
+    next();
+
         return res.status(200).json({
             message: "Productos encontrados satisfactoriamente",
             data: products
@@ -45,7 +61,15 @@ export const updateProductHandler = async (
     res:Response,
     next:NextFunction
 )=>{
-    const {id} = req.params ;
+    const id:number = req.body.id;  
+
+    if(!id){
+        return res.status(400).json(
+            {
+                message:"Id missing"    
+            }
+        )
+    }
     await db.Product.update({...req.body},{where: {id} })
     const product = await db.Product.findByPk(id);
     return res.status(200).json(

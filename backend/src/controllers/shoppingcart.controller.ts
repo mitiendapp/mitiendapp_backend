@@ -53,3 +53,11 @@ export const addProducts =async (
         data:product
     })    
 }
+
+export const removeProducts = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+)=>{
+    //const product = await getProductById(req.body.id)
+}

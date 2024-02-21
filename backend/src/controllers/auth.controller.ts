@@ -13,8 +13,7 @@ export const loginUser: RequestHandler = async (
         password: string
     }
     const { email, password }: RequestBody = req.body;
-    console.log(email, password);
-
+    
     if (!email || !password) return res.status(400).json({ "message": "Correo y contraseña son requeridos" });
     const user = await db.User.findOne({
         where: {
@@ -28,7 +27,7 @@ export const loginUser: RequestHandler = async (
             message: "Verifique nuevamente el correo o la contraseña"
         })
     }
-        
+    
     const match = await bcrypt.compare(password, user.password);
     if (!user || !match) {
         return res.status(401).json({
@@ -36,11 +35,12 @@ export const loginUser: RequestHandler = async (
         }) 
     }
     try {
-
-        const userRoles = JSON.parse(user.roles)
-
+        
+        console.log("Hola ", user.roles);
+        const userRoles = JSON.stringify(user.roles)
+        
         const roles = Object.values(userRoles);
-
+        
         const accessToken = jwt.sign(
             {
                 UserInfo: {
@@ -68,6 +68,8 @@ export const loginUser: RequestHandler = async (
             message: "Ingreso exitoso",
             token: accessToken
         })
+        console.log(accessToken);
+        
 
     } catch (error) {
         res.status(500).json({
