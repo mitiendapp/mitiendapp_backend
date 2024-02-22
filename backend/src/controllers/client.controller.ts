@@ -1,6 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import db from "../models";
 import { ClientService } from "../services/client.service";
+import { TokenExpiredError } from "jsonwebtoken";
 
 export const createClient: RequestHandler = async (
     req:Request,
@@ -21,4 +22,35 @@ export const createClient: RequestHandler = async (
             message: error.message
         })
     }
-}   
+}  
+export const getClients: RequestHandler = async (
+    req:Request,
+    res:Response
+) => {
+    const clientService = new ClientService();
+    try{
+        const clients = await clientService.get();
+        return res.status(200).json({
+            clients
+        })
+    } catch (error:any) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+export const getClientById: RequestHandler = async(
+    req:Request,
+    res:Response
+)=>{
+    const {document} = req.query;
+    const clientService = new ClientService();
+    try {
+        const client = clientService.find(document);
+        return client;
+    } catch (error:any) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
