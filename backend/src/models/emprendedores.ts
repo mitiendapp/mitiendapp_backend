@@ -12,6 +12,8 @@ export interface CompanyAttributes {
   phoneNumber: string,
   description: string,
   img:string;
+  password:string,	
+ confirmPassword:string,
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -26,6 +28,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     phoneNumber!: string;
     description!: string;
     img!:string;
+    password!:string;	
+    confirmPassword!:string;
     static associate(models: any) {
       // define association here
     }
@@ -124,6 +128,29 @@ module.exports = (sequelize: any, DataTypes: any) => {
         }
       },
 
+      
+      password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "field can't be null"
+        }
+      }
+    },
+
+    
+    confirmPassword: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "field can't be null"
+        }
+      }
+    },
+   
+    
 
   }, {
     sequelize,
