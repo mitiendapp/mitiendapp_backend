@@ -9,7 +9,6 @@ export const createClient: RequestHandler = async (
     ) => {
     const clientService = new ClientService();
     try {
-        
         const client = await clientService.create({...req.body});
         return res.status(201).json(
             {
@@ -28,8 +27,8 @@ export const getClients: RequestHandler = async (
     res:Response
 ) => {
     const clientService = new ClientService();
-    try{
-        const clients = await clientService.get();
+    try{     
+        const clients = await clientService.get();   
         return res.status(200).json({
             clients
         })
@@ -46,8 +45,48 @@ export const getClientById: RequestHandler = async(
     const {document} = req.query;
     const clientService = new ClientService();
     try {
-        const client = clientService.find(document);
-        return client;
+        const client = await clientService.find(document);
+        return res.status(200).json({
+            client
+        })
+    } catch (error:any) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+export const updateClient: RequestHandler = async(
+    req:Request,
+    res:Response
+)=>{
+    const {document} = req.query;
+    const clientService = new ClientService();
+    try {
+        const client = await clientService.update(document, req.body);
+        return res.status(200).json({
+            message: "Client updated succesfully",
+            statuscode: client
+        })
+    } catch (error:any) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+export const deleteClient: RequestHandler = async(
+    req:Request,
+    res:Response
+)=>{
+    const {document} = req.query;
+    const clientService = new ClientService();
+    try {
+        const client = await clientService.delete(document);
+        console.log(client);
+        
+        return res.status(200).json({
+            message: "Client deleted succesfully",
+            statuscode: client
+        })
     } catch (error:any) {
         return res.status(500).json({
             message: error.message
