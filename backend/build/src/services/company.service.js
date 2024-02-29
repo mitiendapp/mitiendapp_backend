@@ -9,39 +9,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ClientService = void 0;
-const client_repository_1 = require("../repositories/client.repository");
-class ClientService {
+exports.CompanyService = void 0;
+const company_respository_1 = require("../repositories/company.respository");
+class CompanyService {
     constructor() {
-        this.clientRepository = new client_repository_1.ClientRepository();
+        this.CompanyRepository = new company_respository_1.CompanyRepository();
     }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.create(data, null);
-                return client;
+                const company = yield this.CompanyRepository.create(data, null);
+                return company;
             }
             catch (error) {
                 throw error;
             }
         });
     }
-    get() {
+    getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const clients = yield this.clientRepository.findAll();
-                return clients;
+                const company = yield this.CompanyRepository.findAll();
+                return company;
             }
             catch (error) {
                 throw error;
             }
         });
     }
-    find(id) {
+    updateCompany(document, data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.findOne(id);
-                return client;
+                const company = yield this.CompanyRepository.update(document, data);
+                return company;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    deleteCompany(document) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const company = yield this.CompanyRepository.delete(document);
+                return company;
             }
             catch (error) {
                 throw error;
@@ -49,4 +60,4 @@ class ClientService {
         });
     }
 }
-exports.ClientService = ClientService;
+exports.CompanyService = CompanyService;

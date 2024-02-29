@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyJWT = void 0;
+exports.verifyJWT = exports.dataDecoded = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verifyJWT = (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization;
@@ -19,6 +19,10 @@ const verifyJWT = (req, res, next) => {
             });
         req.email = decoded.UserInfo.email;
         req.roles = decoded.UserInfo.roles;
+        exports.dataDecoded = {
+            role: decoded.UserInfo.roles,
+            email: decoded.UserInfo.email,
+        };
         next();
     });
 };

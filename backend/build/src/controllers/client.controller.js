@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createClient = void 0;
+exports.getClientById = exports.getClients = exports.createClient = void 0;
 const client_service_1 = require("../services/client.service");
 const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clientService = new client_service_1.ClientService();
@@ -27,3 +27,32 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.createClient = createClient;
+const getClients = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const clientService = new client_service_1.ClientService();
+    try {
+        const clients = yield clientService.get();
+        return res.status(200).json({
+            clients
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getClients = getClients;
+const getClientById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { document } = req.query;
+    const clientService = new client_service_1.ClientService();
+    try {
+        const client = clientService.find(document);
+        return client;
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getClientById = getClientById;

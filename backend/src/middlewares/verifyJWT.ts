@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+export let dataDecoded:any;
 export const verifyJWT = (
     req: any,
     res: Response,
@@ -21,8 +22,18 @@ export const verifyJWT = (
             if(err) return res.status(403).json({
                 message:err
             });
+            
             req.email = decoded.UserInfo.email;
             req.roles = decoded.UserInfo.roles;
+            
+            dataDecoded = {
+
+                role : decoded.UserInfo.roles,
+                email: decoded.UserInfo.email,
+
+            }
+
+            
             next();
         }
     )
