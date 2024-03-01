@@ -8,57 +8,55 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             const company = await db.Company.findAll();
             return company;
         } catch (error) {
-            throw new Error("Can't fetch all clients.");
+            throw new Error("Can't fetch all Companys.");
         }
     }
-    async findOne(id: string): Promise<CompanyAttributes> {
+    async findOne(email: string): Promise<CompanyAttributes> {
         try {
-            const company = await db.Company.findByPk(id);   
+            const company = await db.Company.findOne({where: {email:email}}); 
             return company;
         } catch (error) {
-            throw new Error("Can't find client with id: " + id);
+            throw new Error("Can't find company with email: " + email);
         }
     }
     async create(payload: any, callback: any): Promise<CompanyAttributes> {
         
-        const alreadyExist = await this.findOne(payload.document);
+        const alreadyExist = await this.findOne(payload.email);
 
         if(alreadyExist){
-            throw new Error('Client already exist');
+            throw new Error('Company already exist');
         }
         try {
             const company = await db.Company.create(payload);
             return company;
         } catch (error) {
             console.log(error);
-            throw new Error("Error creating client (repository)");
+            throw new Error("Error creating company (repository)");
            
         }
     }
-    
-    
-    async update(document: string, payload: any): Promise<CompanyAttributes> {
-        const alreadyExist = await this.findOne(document);
+    async update(email: string, payload: any): Promise<CompanyAttributes> {
+        const alreadyExist = await this.findOne(email); 
         if(alreadyExist == null){
-            throw new Error('Client not found');
+            throw new Error('Company not found');
         }
         try {
-            const newCompany = await db.Company.update(payload, {where: {document}});
+            const newCompany = await db.Company.update(payload, {where: {email}});
             return newCompany;
         } catch (error) {
-            throw new Error("Can't update client");
+            throw new Error("Can't update company");
         }
     }
-    async delete(document: string): Promise<CompanyAttributes> {
-        const alreadyExist = await this.findOne(document);
+    async delete(email: string): Promise<CompanyAttributes> {
+        const alreadyExist = await this.findOne(email);
         if(alreadyExist == null){
-            throw new Error('Client not found');
+            throw new Error('Company not found');
         }
         try {
-            const companyDeleted = await db.Company.destroy({where: {document}});
+            const companyDeleted = await db.Company.destroy({where: {email}});
             return companyDeleted;
         } catch (error) {
-            throw new Error("Can't delete client");
+            throw new Error("Can't delete company");
         }
     }
 

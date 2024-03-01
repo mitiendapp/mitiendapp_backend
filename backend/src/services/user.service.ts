@@ -24,25 +24,25 @@ export class UserService {
             throw error;
         }   
     }
-    async find(email: any):Promise<UserAttributes>{
+    async find(id: any):Promise<UserAttributes>{
         try {
-            const user:UserAttributes = await this.userRepository.findOne(email);
+            const user:UserAttributes = await this.userRepository.findOne(id);
             return user;
         } catch (error) {
             throw error;
         }
     }
-    async update(email: any, data: UserAttributes):Promise<UserAttributes>{
+    async update(id: any, data: UserAttributes):Promise<UserAttributes>{
         try {
-            const user:UserAttributes = await this.userRepository.update(email, data);
+            const user:UserAttributes = await this.userRepository.update(id, data);
             return user;
         } catch (error) {
             throw error;
         }
     }
-    async delete(email:any):Promise<UserAttributes>{
+    async delete(id:any):Promise<UserAttributes>{
         try {
-            const user:UserAttributes = await this.userRepository.delete(email);
+            const user:UserAttributes = await this.userRepository.delete(id);
             return user;
         } catch (error) {
             throw error;

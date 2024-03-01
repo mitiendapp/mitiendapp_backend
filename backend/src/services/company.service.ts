@@ -2,59 +2,52 @@ import { CompanyAttributes } from "../models/emprendedores";
 import { CompanyRepository } from "../repositories/company.respository";
 
 export class CompanyService {
-    private CompanyRepository: CompanyRepository;
+    private companyRepository: CompanyRepository;
 
     constructor(){
-        this.CompanyRepository = new CompanyRepository();
+        this.companyRepository = new CompanyRepository();
     }
 
     async create(data: any):Promise<CompanyAttributes>{
         try{
-            const company:CompanyAttributes = await this.CompanyRepository.create(data, null);
+            const company:CompanyAttributes = await this.companyRepository.create(data, null);
             return company;
         }catch(error){
             throw error;
         }
     }
 
-    async getAll():Promise<CompanyAttributes[]>{
+    async get():Promise<CompanyAttributes[]>{
         try{
-            const company:CompanyAttributes[] = await this.CompanyRepository.findAll();
+            const company:CompanyAttributes[] = await this.companyRepository.findAll();
             return company;
         }catch(error){
             throw error;
         }
     }
-
-    async updateCompany(document: string ,data: any):Promise<CompanyAttributes>{
+    async find(id: any):Promise<CompanyAttributes>{
+        try {
+            const company:CompanyAttributes = await this.companyRepository.findOne(id);
+            return company;
+        } catch (error) {
+            throw error;
+        }
+    }
+    async update(id: any ,data: any):Promise<CompanyAttributes>{
         try{
-            const company:CompanyAttributes = await this.CompanyRepository.update(document,data);
+            const company:CompanyAttributes = await this.companyRepository.update(id , data);
             return company;
         }catch(error){
             throw error;
         }
     }
-
-    async deleteCompany(document: string ):Promise<CompanyAttributes>{
+    async delete(id: any ):Promise<CompanyAttributes>{
         try{
-            const company:CompanyAttributes = await this.CompanyRepository.delete(document);
+            const company:CompanyAttributes = await this.companyRepository.delete(id);
             return company;
         }catch(error){
             throw error;
         }
     }
 
-
-//     async getAll(): Promise<CompanyAttributes[]> {
-//         try {
-//             const companies: CompanyAttributes[] = await this.CompanyRepository.findAll();
-            
-  
-// return companies;
-//         } catch (error) {
-//             throw error;
-//         }
-//     }
-
-    
 }

@@ -33,26 +33,25 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
             throw new Error("Error creating client (repository)");
         }
     }
-    async update(document: string, payload: any): Promise<ClientAttributes> {
-        const alreadyExist = await this.findOne(document);
+    async update(id: string, payload: any): Promise<ClientAttributes> {
+        const alreadyExist = await this.findOne(id);
         if(alreadyExist == null){
             throw new Error('Client not found');
         }
         try {
-            const newClient = await db.Client.update(payload, {where: {document}});
+            const newClient = await db.Client.update(payload, {where: {id}});
             return newClient;
         } catch (error) {
-            console.log(error);
             throw new Error("Can't update client");
         }
     }
-    async delete(document: string): Promise<ClientAttributes> {
-        const alreadyExist = await this.findOne(document);
+    async delete(id: string): Promise<ClientAttributes> {
+        const alreadyExist = await this.findOne(id);
         if(alreadyExist == null){
             throw new Error('Client not found');
         }
         try {
-            const clientDeleted = await db.Client.destroy({where: {document}});
+            const clientDeleted = await db.Client.destroy({where: {id}});
             return clientDeleted;
         } catch (error) {
             throw new Error("Can't delete client");

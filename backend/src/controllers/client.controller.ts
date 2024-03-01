@@ -42,10 +42,10 @@ export const getClientById: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {document} = req.query;
+    const {email} = req.query;
     const clientService = new ClientService();
     try {
-        const client = await clientService.find(document);
+        const client = await clientService.find(email);
         return res.status(200).json({
             client
         })
@@ -59,10 +59,10 @@ export const updateClient: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {document} = req.query;
+    const {email} = req.query;
     const clientService = new ClientService();
     try {
-        const client = await clientService.update(document, req.body);
+        const client = await clientService.update(email, req.body);
         return res.status(200).json({
             message: "Client updated succesfully",
             statuscode: client
@@ -77,10 +77,10 @@ export const deleteClient: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {document} = req.query;
+    const {email} = req.query;
     const clientService = new ClientService();
     try {
-        const client = await clientService.delete(document);
+        const client = await clientService.delete(email);
         console.log(client);
         
         return res.status(200).json({
