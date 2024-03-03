@@ -10,8 +10,7 @@ const ROUTER = Router();
 
 // ROUTER.post('/user/register', registerUser); // pendiente de cambiar
 
-// ROUTER.post('/user/login', loginUser); // pendiente de cambiar
-
+ROUTER.post('/user/login', loginUser); // pendiente de cambiar
 ROUTER.get('/users', getUsers);
 ROUTER.get('/user', getUserById);
 ROUTER.post('/user/create', createUser);

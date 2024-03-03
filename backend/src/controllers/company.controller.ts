@@ -11,8 +11,6 @@ export const createCompany: RequestHandler = async (
 ) => {
     const companyService = new CompanyService();
     try {
-        console.log(req.body);
-
         const company = await companyService.create({ ...req.body });
         return res.status(201).json(
             {

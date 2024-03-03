@@ -45,8 +45,6 @@ db.sequelize.sync().then(()=>{
         console.log("Se conecto correctamente");
     })
 }).catch((e:Error)=>{
-    console.log("here"); 
-    
     console.log(e.message);  
 })
 

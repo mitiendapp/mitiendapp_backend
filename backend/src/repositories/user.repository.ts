@@ -1,6 +1,10 @@
 import { UserAttributes } from "../models/user";
 import IUserRepository from "./interfaces/user.repository.interface";
+import { CompanyAttributes } from "../models/emprendedores";
+import { ClientAttributes } from "../models/client";
 import db from "../models";
+import bcrypt from 'bcrypt';
+import { CompanyRepository } from "./company.respository";
 
 export class UserRepository implements IUserRepository<UserAttributes, string>{
     async findAll(): Promise<UserAttributes[]> {
@@ -19,15 +23,26 @@ export class UserRepository implements IUserRepository<UserAttributes, string>{
             throw new Error("Can't find user with email: " + email);
         }
     }
-    async create(payload: any, callback: any): Promise<UserAttributes> {
-
-        const alreadyExist = await this.findOne(payload.email);
-
+    async create(payload: any, callback: any): Promise<UserAttributes> {   
+        
+        let { firstName, lastName, email, roles, password, status } = payload;    
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const alreadyExist = await db.User.findOne({where:{email}});
         if (alreadyExist) {
             throw new Error('User already exist');
         }
         try {
-            const user = await db.User.create(payload);
+            if("nameEmprendimiento" in payload){
+                roles = Object.assign({}, {"Company": 4068});
+            };
+            const user = await db.User.create({
+                firstName:firstName,
+                lastName:lastName,
+                email:email,
+                password:hashedPassword,
+                roles:roles,
+                status:status  
+            });
             return user;
         } catch (error) {
             throw new Error("Error creating user (repository)");

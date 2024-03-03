@@ -28,7 +28,7 @@ export const getClients: RequestHandler = async (
 ) => {
     const clientService = new ClientService();
     try{     
-        const clients = await clientService.get();   
+        const clients = await clientService.get();       
         return res.status(200).json({
             clients
         })
