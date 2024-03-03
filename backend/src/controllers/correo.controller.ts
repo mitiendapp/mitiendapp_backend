@@ -19,12 +19,12 @@ export const envioCorreo = (req: Request, resp: Response) => {
         from: 'mitiendapp6@gmail.com',
         to: 'josel.alvarezh@uqvirtual.edu.co',
         subject: 'Pruebas Correo',
-        text: 'Envio de correo desde node js utilizando nodemailer',
-        html: '<p></p>',
+        text: 'Beinvenido a mitiendapp',
+        html: '<p>Beinvenido a mitiendapp <img src="https://www.shutterstock.com/image-vector/spanish-language-vector-template-welcome-260nw-1792430023.jpg" alt="Imagen adjunta"></p>',
         attachments: [
             {
               filename: 'imagen.jpg',
-              path: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fes%2Fsearch%2Fbienvenida&psig=AOvVaw0_XuEUmTb-5r_ePERQJfRH&ust=1709525764458000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCODJvfqd14QDFQAAAAAdAAAAABAE',
+              path: '',
               cid: 'Bienvenido', 
             },
           ],
