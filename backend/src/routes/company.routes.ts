@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createCompany,getAllCcompany,updateCompany,deleteCompany} from "../controllers/company.controller"
+import {createCompany,getCompanies,getCompanyById,updateCompany,deleteCompany} from "../controllers/company.controller"
 const ROUTER = Router();
 
 
@@ -7,9 +7,13 @@ const ROUTER = Router();
 
 //company
 
-ROUTER.post('/companyRegister', createCompany)
-ROUTER.get('/getAllCompany',getAllCcompany)
-ROUTER.put('/companyUpdate/:document', updateCompany)
-ROUTER.delete('/companyDelete/:document',deleteCompany)
+
+ROUTER.get('/companies', getCompanies);
+ROUTER.get('/company', getCompanyById);
+ROUTER.post('/company/create', createCompany);
+ROUTER.post('/company/update', updateCompany);
+ROUTER.post('/company/delete', deleteCompany);
+
+
 
 module.exports = ROUTER;

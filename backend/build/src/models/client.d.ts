@@ -4,4 +4,5 @@ export interface ClientAttributes {
     lastName: string;
     email: string;
     address: string;
+    password: string;
 }

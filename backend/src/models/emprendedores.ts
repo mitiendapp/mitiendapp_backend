@@ -13,7 +13,7 @@ export interface CompanyAttributes {
   description: string,
   img:string;
   password:string,	
- confirmPassword:string,
+  confirmPassword:string,
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {

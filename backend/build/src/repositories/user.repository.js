@@ -12,44 +12,57 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ClientRepository = void 0;
+exports.UserRepository = void 0;
 const models_1 = __importDefault(require("../models"));
-class ClientRepository {
+const bcrypt_1 = __importDefault(require("bcrypt"));
+class UserRepository {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const clients = yield models_1.default.Client.findAll();
-                return clients;
+                const users = yield models_1.default.User.findAll();
+                return users;
             }
             catch (error) {
-                console.log(error);
-                throw new Error("Can't fetch all clients: ");
+                throw new Error("Can't fetch all users.");
             }
         });
     }
     findOne(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield models_1.default.Client.findOne({ where: { email } });
-                return client;
+                const user = yield models_1.default.User.findOne({ where: { email: email } });
+                return user;
             }
             catch (error) {
-                throw new Error("Can't find client with email: " + email);
+                throw new Error("Can't find user with email: " + email);
             }
         });
     }
     create(payload, callback) {
         return __awaiter(this, void 0, void 0, function* () {
-            const alreadyExist = yield this.findOne(payload.email);
+            let { firstName, lastName, email, roles, password, status } = payload;
+            const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+            const alreadyExist = yield models_1.default.User.findOne({ where: { email } });
             if (alreadyExist) {
-                throw new Error('Client already exist');
+                throw new Error('User already exist');
             }
             try {
-                const client = yield models_1.default.Client.create(payload);
-                return client;
+                if ("nameEmprendimiento" in payload) {
+                    roles = Object.assign({}, { "Company": 4068 });
+                }
+                ;
+                const user = yield models_1.default.User.create({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: hashedPassword,
+                    roles: roles,
+                    status: status
+                });
+                return user;
             }
             catch (error) {
-                throw new Error("Error creating client (repository)");
+                throw new Error("Error creating user (repository)");
             }
         });
     }
@@ -57,14 +70,14 @@ class ClientRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExist = yield this.findOne(email);
             if (alreadyExist == null) {
-                throw new Error('Client not found');
+                throw new Error('User not found');
             }
             try {
-                const newClient = yield models_1.default.Client.update(payload, { where: { email } });
-                return newClient;
+                const newUser = yield models_1.default.User.update(payload, { where: { email } });
+                return newUser;
             }
             catch (error) {
-                throw new Error("Can't update client");
+                throw new Error("Can't update user");
             }
         });
     }
@@ -72,16 +85,16 @@ class ClientRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExist = yield this.findOne(email);
             if (alreadyExist == null) {
-                throw new Error('Client not found');
+                throw new Error('User not found');
             }
             try {
-                const clientDeleted = yield models_1.default.Client.destroy({ where: { email } });
-                return clientDeleted;
+                const userDeleted = yield models_1.default.User.destroy({ where: { email } });
+                return userDeleted;
             }
             catch (error) {
-                throw new Error("Can't delete client");
+                throw new Error("Can't delete user");
             }
         });
     }
 }
-exports.ClientRepository = ClientRepository;
+exports.UserRepository = UserRepository;
