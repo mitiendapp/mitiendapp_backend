@@ -24,7 +24,7 @@ export const envioCorreo = (req: Request, resp: Response) => {
         attachments: [
             {
               filename: 'imagen.jpg',
-              path: 'backend/src/assets/img/bienvenidaClientes.png',
+              path: '',
               cid: 'Bienvenido', 
             },
           ],
