@@ -20,7 +20,7 @@ export const envioCorreo = (req: Request, resp: Response) => {
         to: body.email,
         subject: 'Mitiendapp_Bienvenida',
         text: 'Beinvenido a mitiendapp',
-        html: '<img src="file:///C:/Users/LENOVO-USER/Downloads/Post%20de%20Instagram%20Tienda%20Online%20Morado.png" alt="Imagen adjunta">',
+        html: '<img src="../../src/assets/img/bienvenidaClientes.png" alt="Imagen adjunta">',
         attachments: [
             {
               filename: 'imagen.jpg',
