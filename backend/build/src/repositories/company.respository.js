@@ -12,29 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ClientRepository = void 0;
-const models_1 = __importDefault(require("../models"));
-class ClientRepository {
+exports.CompanyRepository = void 0;
+const models_1 = __importDefault(require("../models")); // conexion
+class CompanyRepository {
     findAll() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const clients = yield models_1.default.Client.findAll();
-                return clients;
+                const company = yield models_1.default.Company.findAll();
+                return company;
             }
             catch (error) {
-                console.log(error);
-                throw new Error("Can't fetch all clients: ");
+                throw new Error("Can't fetch all Companys.");
             }
         });
     }
     findOne(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield models_1.default.Client.findOne({ where: { email } });
-                return client;
+                const company = yield models_1.default.Company.findOne({ where: { email: email } });
+                return company;
             }
             catch (error) {
-                throw new Error("Can't find client with email: " + email);
+                throw new Error("Can't find company with email: " + email);
             }
         });
     }
@@ -42,14 +41,15 @@ class ClientRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExist = yield this.findOne(payload.email);
             if (alreadyExist) {
-                throw new Error('Client already exist');
+                throw new Error('Company already exist');
             }
             try {
-                const client = yield models_1.default.Client.create(payload);
-                return client;
+                const company = yield models_1.default.Company.create(payload);
+                return company;
             }
             catch (error) {
-                throw new Error("Error creating client (repository)");
+                console.log(error);
+                throw new Error("Error creating company (repository)");
             }
         });
     }
@@ -57,14 +57,14 @@ class ClientRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExist = yield this.findOne(email);
             if (alreadyExist == null) {
-                throw new Error('Client not found');
+                throw new Error('Company not found');
             }
             try {
-                const newClient = yield models_1.default.Client.update(payload, { where: { email } });
-                return newClient;
+                const newCompany = yield models_1.default.Company.update(payload, { where: { email } });
+                return newCompany;
             }
             catch (error) {
-                throw new Error("Can't update client");
+                throw new Error("Can't update company");
             }
         });
     }
@@ -72,16 +72,16 @@ class ClientRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const alreadyExist = yield this.findOne(email);
             if (alreadyExist == null) {
-                throw new Error('Client not found');
+                throw new Error('Company not found');
             }
             try {
-                const clientDeleted = yield models_1.default.Client.destroy({ where: { email } });
-                return clientDeleted;
+                const companyDeleted = yield models_1.default.Company.destroy({ where: { email } });
+                return companyDeleted;
             }
             catch (error) {
-                throw new Error("Can't delete client");
+                throw new Error("Can't delete company");
             }
         });
     }
 }
-exports.ClientRepository = ClientRepository;
+exports.CompanyRepository = CompanyRepository;

@@ -36,7 +36,6 @@ index_1.default.sequelize.sync().then(() => {
         console.log("Se conecto correctamente");
     });
 }).catch((e) => {
-    console.log("here");
     console.log(e.message);
 });
 exports.default = app;

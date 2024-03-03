@@ -2,12 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class Client extends sequelize_1.Model {
+    class Company extends sequelize_1.Model {
         static associate(models) {
             // define association here
         }
     }
-    Client.init({
+    Company.init({
         document: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -39,6 +39,16 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
+        nameEmprendimiento: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+                notNull: {
+                    msg: "field can't be null"
+                }
+            }
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -59,18 +69,50 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
+        phoneNumber: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "field can't be null"
+                }
+            }
+        },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "field can't be null"
+                }
+            }
+        },
+        img: {
+            type: DataTypes.STRING,
+            validate: {}
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: "Field can't be null"
+                    msg: "field can't be null"
+                }
+            }
+        },
+        confirmPassword: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "field can't be null"
                 }
             }
         },
     }, {
         sequelize,
-        modelName: 'Client',
+        modelName: 'Company',
+        tableName: "Company2"
     });
-    return Client;
+    return Company;
 };

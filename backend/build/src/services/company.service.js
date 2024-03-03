@@ -9,19 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ClientService = void 0;
-const client_repository_1 = require("../repositories/client.repository");
+exports.CompanyService = void 0;
+const company_respository_1 = require("../repositories/company.respository");
 const user_repository_1 = require("../repositories/user.repository");
-class ClientService {
+class CompanyService {
     constructor() {
-        this.clientRepository = new client_repository_1.ClientRepository();
+        this.companyRepository = new company_respository_1.CompanyRepository();
         this.userRepository = new user_repository_1.UserRepository();
     }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.create(data, yield this.userRepository.create(data, null));
-                return client;
+                const company = yield this.companyRepository.create(data, yield this.userRepository.create(data, null));
+                return company;
             }
             catch (error) {
                 throw error;
@@ -31,8 +31,8 @@ class ClientService {
     get() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const clients = yield this.clientRepository.findAll();
-                return clients;
+                const company = yield this.companyRepository.findAll();
+                return company;
             }
             catch (error) {
                 throw error;
@@ -42,8 +42,8 @@ class ClientService {
     find(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.findOne(id);
-                return client;
+                const company = yield this.companyRepository.findOne(id);
+                return company;
             }
             catch (error) {
                 throw error;
@@ -53,8 +53,8 @@ class ClientService {
     update(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.update(id, data);
-                return client;
+                const company = yield this.companyRepository.update(id, data);
+                return company;
             }
             catch (error) {
                 throw error;
@@ -64,9 +64,9 @@ class ClientService {
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.delete(id);
+                const company = yield this.companyRepository.delete(id);
                 yield this.userRepository.delete(id);
-                return client;
+                return company;
             }
             catch (error) {
                 throw error;
@@ -74,4 +74,4 @@ class ClientService {
         });
     }
 }
-exports.ClientService = ClientService;
+exports.CompanyService = CompanyService;
