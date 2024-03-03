@@ -19,12 +19,12 @@ export const envioCorreo = (req: Request, resp: Response) => {
         from: 'mitiendapp6@gmail.com',
         to: body.email,
         subject: 'Mitiendapp_Bienvenida',
-        text: '0',
-        html: '<img src="src/assets/img/bienvenidaClientes.png" alt="Imagen adjunta">',
+        text: 'Beinvenido a mitiendapp',
+        html: '<img src="../src/assets/img/bienvenidaClientes.png" alt="Imagen adjunta">',
         attachments: [
             {
               filename: 'imagen.jpg',
-              path: 'backend/src/assets/img/bienvenidaClientes.png',
+              path: '',
               cid: 'Bienvenido', 
             },
           ],
