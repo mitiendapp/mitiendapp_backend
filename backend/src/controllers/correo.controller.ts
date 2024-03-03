@@ -17,7 +17,7 @@ export const envioCorreo = (req: Request, resp: Response) => {
 
     const opciones = {
         from: 'mitiendapp6@gmail.com',
-        to: 'josel.alvarezh@uqvirtual.edu.co',
+        to: body.email,
         subject: 'Pruebas Correo',
         text: 'Beinvenido a mitiendapp',
         html: '<p>Beinvenido a mitiendapp <img src="https://www.shutterstock.com/image-vector/spanish-language-vector-template-welcome-260nw-1792430023.jpg" alt="Imagen adjunta"></p>',
