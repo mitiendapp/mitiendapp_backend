@@ -47,7 +47,7 @@ export const getCompanyById: RequestHandler = async (
     req: Request,
     res: Response
 ) => {
-    const { email } = req.query;
+    const { email } = req.params;
     const companyService = new CompanyService();
     try {
         const company = await companyService.find(email);
