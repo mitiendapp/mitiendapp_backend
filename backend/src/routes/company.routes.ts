@@ -9,7 +9,7 @@ const ROUTER = Router();
 
 
 ROUTER.get('/companies', getCompanies);
-ROUTER.get('/company', getCompanyById);
+ROUTER.get('/company/:email', getCompanyById);
 ROUTER.post('/company/create', createCompany);
 ROUTER.post('/company/update', updateCompany);
 ROUTER.post('/company/delete', deleteCompany);
