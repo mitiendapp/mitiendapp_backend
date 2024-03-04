@@ -5,9 +5,11 @@ const PRODUCT_ROUTES = require('./product.routes');
 const ORDER_ROUTES = require('./order.routes');
 const CART_ROUTES = require('./cart.routes');
 const COMPANY_ROUTES=require('./company.routes');
+const CORREO_ROUTES=require('./correo.routes');
 const router = Router();
 
-
+//route correo
+router.use(CORREO_ROUTES);
 // client routes
 router.use(CLIENT_ROUTES);
 // User routes

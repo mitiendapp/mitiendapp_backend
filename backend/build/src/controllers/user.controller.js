@@ -8,51 +8,87 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerUser = void 0;
-const models_1 = __importDefault(require("../models"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, email, password, roles, status } = req.body;
-    if (!email || !password)
-        return res.status(400).json({ "message": "El correo y la contraseña son requeridos" });
-    const exists = yield models_1.default.User.findOne({
-        where: {
-            email: req.body.email
-        }
-    }).catch((err) => {
-        console.error(err);
-    });
-    if (exists)
-        return res.status(409).json({
-            message: "El correo ya se encuentra registrado"
-        });
+exports.deleteUser = exports.updateUser = exports.getUserById = exports.getUsers = exports.createUser = void 0;
+const user_service_1 = require("../services/user.service");
+const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userService = new user_service_1.UserService();
     try {
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
-        const user = yield models_1.default.User.create({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: hashedPassword,
-            roles: roles,
-            status: status
-        }).then(() => {
-            return res.status(201).json({
-                message: "El usuario fue registrado con exito"
-            });
-        }).catch((err) => {
-            console.error(err);
-            next(err);
+        const user = yield userService.create(Object.assign({}, req.body));
+        return res.status(201).json({
+            message: "User created succesfully",
+            data: user
         });
     }
     catch (error) {
-        res.status(500).json({
-            message: "¡Ups! Algo salió mal"
+        return res.status(500).json({
+            message: error.message
         });
-        next(error);
     }
 });
-exports.registerUser = registerUser;
+exports.createUser = createUser;
+const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userService = new user_service_1.UserService();
+    try {
+        const users = yield userService.get();
+        return res.status(200).json({
+            users
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getUsers = getUsers;
+const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    const userService = new user_service_1.UserService();
+    try {
+        const user = yield userService.find(email);
+        return res.status(200).json({
+            user
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getUserById = getUserById;
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    const userService = new user_service_1.UserService();
+    try {
+        const user = yield userService.update(email, req.body);
+        return res.status(200).json({
+            message: "User updated succesfully",
+            statuscode: user
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.updateUser = updateUser;
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    const userService = new user_service_1.UserService();
+    try {
+        const user = yield userService.delete(email);
+        return res.status(200).json({
+            message: "User deleted succesfully",
+            statuscode: user
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.deleteUser = deleteUser;

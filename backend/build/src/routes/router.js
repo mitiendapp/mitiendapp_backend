@@ -6,6 +6,7 @@ const USER_ROUTES = require('./user.routes');
 const PRODUCT_ROUTES = require('./product.routes');
 const ORDER_ROUTES = require('./order.routes');
 const CART_ROUTES = require('./cart.routes');
+const COMPANY_ROUTES = require('./company.routes');
 const router = (0, express_1.Router)();
 // client routes
 router.use(CLIENT_ROUTES);
@@ -17,4 +18,6 @@ router.use(PRODUCT_ROUTES);
 router.use(CART_ROUTES);
 // Order routes
 router.use(ORDER_ROUTES);
+//company route
+router.use(COMPANY_ROUTES);
 exports.default = router;

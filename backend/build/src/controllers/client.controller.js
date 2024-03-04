@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createClient = void 0;
+exports.deleteClient = exports.updateClient = exports.getClientById = exports.getClients = exports.createClient = void 0;
 const client_service_1 = require("../services/client.service");
 const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clientService = new client_service_1.ClientService();
@@ -27,3 +27,69 @@ const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.createClient = createClient;
+const getClients = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const clientService = new client_service_1.ClientService();
+    try {
+        const clients = yield clientService.get();
+        return res.status(200).json({
+            clients
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getClients = getClients;
+const getClientById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    const clientService = new client_service_1.ClientService();
+    try {
+        const client = yield clientService.find(email);
+        return res.status(200).json({
+            client
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getClientById = getClientById;
+const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    const clientService = new client_service_1.ClientService();
+    try {
+        const client = yield clientService.update(email, req.body);
+        return res.status(200).json({
+            message: "Client updated succesfully",
+            statuscode: client
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.updateClient = updateClient;
+const deleteClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.query;
+    const clientService = new client_service_1.ClientService();
+    try {
+        const client = yield clientService.delete(email);
+        console.log(client);
+        return res.status(200).json({
+            message: "Client deleted succesfully",
+            statuscode: client
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.deleteClient = deleteClient;

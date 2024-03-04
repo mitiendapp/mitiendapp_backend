@@ -58,7 +58,16 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "field can't be null"
                 }
             }
-        }
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Field can't be null"
+                }
+            }
+        },
     }, {
         sequelize,
         modelName: 'Client',

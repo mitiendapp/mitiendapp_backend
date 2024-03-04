@@ -8,20 +8,20 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
             const clients = await db.Client.findAll();
             return clients;
         } catch (error) {
-            throw new Error("Can't fetch all clients.");
+            console.log(error);
+            throw new Error("Can't fetch all clients: ");
         }
     }
-    async findOne(id: string): Promise<ClientAttributes> {
+    async findOne(email: string): Promise<ClientAttributes> {
         try {
-            const client = await db.Client.findByPk(id);   
+            const client = await db.Client.findOne({where:{email}});   
             return client;
         } catch (error) {
-            throw new Error("Can't find client with id: " + id);
+            throw new Error("Can't find client with email: " + email);
         }
     }
-    async create(payload: any, callback: any): Promise<ClientAttributes> {
-        
-        const alreadyExist = await this.findOne(payload.document);
+    async create(payload: any, callback: any): Promise<ClientAttributes> {       
+        const alreadyExist = await this.findOne(payload.email);
 
         if(alreadyExist){
             throw new Error('Client already exist');
@@ -33,25 +33,25 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
             throw new Error("Error creating client (repository)");
         }
     }
-    async update(id: string, payload: any): Promise<ClientAttributes> {
-        const alreadyExist = await this.findOne(id);
+    async update(email: string, payload: any): Promise<ClientAttributes> {
+        const alreadyExist = await this.findOne(email);
         if(alreadyExist == null){
             throw new Error('Client not found');
         }
         try {
-            const newClient = await db.Client.update(payload, {where: {id}});
+            const newClient = await db.Client.update(payload, {where: {email}});
             return newClient;
         } catch (error) {
             throw new Error("Can't update client");
         }
     }
-    async delete(id: string): Promise<ClientAttributes> {
-        const alreadyExist = await this.findOne(id);
+    async delete(email: string): Promise<ClientAttributes> {
+        const alreadyExist = await this.findOne(email);
         if(alreadyExist == null){
             throw new Error('Client not found');
         }
         try {
-            const clientDeleted = await db.Client.destroy({where: {id}});
+            const clientDeleted = await db.Client.destroy({where: {email}});
             return clientDeleted;
         } catch (error) {
             throw new Error("Can't delete client");
