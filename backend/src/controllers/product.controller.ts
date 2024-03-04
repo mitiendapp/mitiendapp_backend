@@ -1,5 +1,10 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import db from "../models";
+// import {uploadImage} from '../../config/cloudinary'
+import { UploadedFile } from "express-fileupload"; // Importar UploadedFile
+import multer, { FileFilterCallback } from 'multer'; // Importar multer
+// import { adaptarNameImage } from "../routes/product.routes";
+import { uploadImage } from '../../config/cloudinary';
 
 
 export const getProducts = async (
@@ -98,15 +103,137 @@ export const getProductById = async(
     }
 }
 
-export const createProduct =async (
+
+export const createProduct = async (
     req: Request,
     res: Response,
     next: NextFunction
-    
 ) => {
-    const product = await db.Product.create({...req.body});
-    return res.status(201).json({
-        message:"Producto creado satisfactoriamente",
-        data:product
-    })    
-}
+    try {
+        // Verifica si se ha cargado algún archivo
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+        }
+        console.log(req.file)
+        //   const adaptar = adaptarNameImage(req.file.path)
+        // Carga la imagen en Cloudinary
+        const cloudinaryResponse = await uploadImage(req.file.path);
+
+        // // Verifica si la carga en Cloudinary fue exitosa
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
+
+        // Crea un nuevo producto en la base de datos
+        const product = await db.Product.create({
+            ...req.body,
+            image: cloudinaryResponse.secure_url
+        });
+
+        return res.status(201).json({
+            message: 'Producto creado satisfactoriamente',
+            data: product,
+        });
+    } catch (error) {
+        // Manejo de errores
+        console.error(error);
+        return res.status(500).json({ message: 'Ocurrió un error interno' });
+    }
+};
+
+// export const createProduct = async (
+//     req: Request,
+//     res: Response,
+//     next: NextFunction
+// ) => {
+//     try {
+//         // Verifica si se ha cargado algún archivo
+//         if (!req.files || Object.keys(req.files).length === 0) {
+//             return res.status(400).json({ message: 'No se ha cargado ningún archivo' });
+//         }
+        
+//         // Extrae el archivo de imagen del cuerpo de la solicitud
+//         const imageFile = req.files.image as UploadedFile;
+        
+         
+//         // Obtiene la ruta temporal del archivo
+//         const tempFilePath = imageFile.tempFilePath;
+//          console.log(tempFilePath)
+//         // Llama a la función uploadImage con la ruta temporal del archivo
+//         const cloudinaryResponse = await uploadImage(tempFilePath);
+       
+//         // Crea un nuevo producto en la base de datos
+//         const product = await db.Product.create({
+//             ...req.body,
+//             image: cloudinaryResponse.secure_url,
+//         });
+//         console.log(cloudinaryResponse);
+//         return res.status(201).json({
+//             message: "Producto creado satisfactoriamente",
+//             data: product
+//         });
+//     } catch (error) {
+//         // Manejo de errores
+//         console.error(error);
+//         return res.status(500).json({ message: 'Ocurrió un error interno' });
+//     }
+// };*******************************************************************************
+
+
+
+// export const createProduct = async (
+//     req: Request,
+//     res: Response,
+//     next: NextFunction
+// ) => {
+//     try {
+//         // Verifica si se ha cargado algún archivo desde el frontend
+//         if (!req.files || Object.keys(req.files).length === 0 || !req.files.image) {
+//             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+//         }
+        
+//         // Extrae el archivo de imagen del cuerpo de la solicitud
+//         const imageFile = req.files.image as UploadedFile;
+//         console.log(imageFile);
+        
+//         // Obtiene la ruta temporal del archivo
+//         const tempFilePath = imageFile.tempFilePath;
+//     console.log(tempFilePath);
+    
+//         // Carga la imagen en Cloudinary
+//         const cloudinaryResponse = await uploadImage(tempFilePath);
+
+//         // Verifica si la carga en Cloudinary fue exitosa
+//         if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+//             return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+//         }
+
+//         // Crea un nuevo producto en la base de datos
+//         const product = await db.Product.create({
+//             ...req.body,
+//             image: cloudinaryResponse.secure_url
+//         });
+
+//         return res.status(201).json({
+//             message: 'Producto creado satisfactoriamente',
+//             data: product,
+//         });
+//     } catch (error) {
+//         // Manejo de errores
+//         console.error(error);
+//         return res.status(500).json({ message: 'Ocurrió un error interno' });
+//     }
+// };
+
+// export const createProduct =async (
+//     req: Request,
+//     res: Response,
+//     next: NextFunction
+    
+// ) => {
+//     const product = await db.Product.create({...req.body});
+//     return res.status(201).json({
+//         message:"Producto creado satisfactoriamente",
+//         data:product
+//     })    
+// }

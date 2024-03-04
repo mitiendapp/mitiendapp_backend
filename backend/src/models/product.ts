@@ -6,7 +6,7 @@ import {
 export interface ProductsAttributes{
   name:string,
   description:string,
-  price:string,
+  price:number,
   image:string,
   stock:number,
   state:string,
@@ -21,7 +21,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
      */
     name!:string;
     description!: string;
-    price!: string;
+    price!: number;
     image!: string;
     stock!: number;
     state!: string;
@@ -51,7 +51,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
       }
     },
     price: {
-      type:DataTypes.STRING,
+      type:DataTypes.INTEGER,
       allowNull:false,
       validate:{
         notNull:{
@@ -88,3 +88,4 @@ module.exports = (sequelize:any, DataTypes:any) => {
   });
   return Product;
 };
+//cc
