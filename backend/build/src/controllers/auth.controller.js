@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginTest = exports.loginUser = void 0;
+exports.loginTest = exports.registerUser = exports.loginUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const models_1 = __importDefault(require("../models"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -39,7 +39,6 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         });
     }
     try {
-        console.log("Hola ", user.roles);
         const userRoles = JSON.stringify(user.roles);
         const roles = Object.values(userRoles);
         const accessToken = jsonwebtoken_1.default.sign({
@@ -61,7 +60,6 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             message: "Ingreso exitoso",
             token: accessToken
         });
-        console.log(accessToken);
     }
     catch (error) {
         res.status(500).json({
@@ -71,6 +69,48 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.loginUser = loginUser;
+const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { firstName, lastName, email, password, roles, status } = req.body;
+    if (!email || !password)
+        return res.status(400).json({ "message": "El correo y la contraseña son requeridos" });
+    const exists = yield models_1.default.User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).catch((err) => {
+        console.error(err);
+    });
+    if (exists)
+        return res.status(409).json({
+            message: "El correo ya se encuentra registrado"
+        });
+    try {
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const user = yield models_1.default.User.create({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: hashedPassword,
+            roles: roles,
+            status: status
+        }).then(() => {
+            return res.status(201).json({
+                message: "El usuario fue registrado con exito"
+            });
+        }).then(() => {
+        }).catch((err) => {
+            console.error(err);
+            next(err);
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "¡Ups! Algo salió mal"
+        });
+        next(error);
+    }
+});
+exports.registerUser = registerUser;
 const loginTest = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     return res.send("funciona");
 });

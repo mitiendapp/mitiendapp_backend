@@ -6,10 +6,10 @@ import {
 export interface ProductsAttributes{
   name:string,
   description:string,
-  price:string,
+  price:number,
   image:string,
   stock:number,
-  state:string,
+  category:string
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
@@ -21,13 +21,18 @@ module.exports = (sequelize:any, DataTypes:any) => {
      */
     name!:string;
     description!: string;
-    price!: string;
+    price!: number;
     image!: string;
     stock!: number;
-    state!: string;
+    category!: string;
 
     static associate(models:any) {
-      // define association here
+      Product.belongsTo(models.Company, {
+        foreignKey: {
+          allowNull:false,
+          name:'document',
+        },
+      })
     }
   }
   Product.init({
@@ -51,7 +56,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
       }
     },
     price: {
-      type:DataTypes.STRING,
+      type:DataTypes.INTEGER,
       allowNull:false,
       validate:{
         notNull:{
@@ -77,10 +82,9 @@ module.exports = (sequelize:any, DataTypes:any) => {
         }
       }
     },
-    state: {
+    category:{
       type:DataTypes.STRING,
       allowNull:false,
-      defaultValue:"nuevo"
     }
   }, {
     sequelize,
@@ -88,3 +92,4 @@ module.exports = (sequelize:any, DataTypes:any) => {
   });
   return Product;
 };
+//cc

@@ -22,24 +22,25 @@ class ClientRepository {
                 return clients;
             }
             catch (error) {
-                throw new Error("Can't fetch all clients.");
+                console.log(error);
+                throw new Error("Can't fetch all clients: ");
             }
         });
     }
-    findOne(id) {
+    findOne(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield models_1.default.Client.findByPk(id);
+                const client = yield models_1.default.Client.findOne({ where: { email } });
                 return client;
             }
             catch (error) {
-                throw new Error("Can't find client with id: " + id);
+                throw new Error("Can't find client with email: " + email);
             }
         });
     }
     create(payload, callback) {
         return __awaiter(this, void 0, void 0, function* () {
-            const alreadyExist = yield this.findOne(payload.document);
+            const alreadyExist = yield this.findOne(payload.email);
             if (alreadyExist) {
                 throw new Error('Client already exist');
             }
@@ -52,14 +53,14 @@ class ClientRepository {
             }
         });
     }
-    update(id, payload) {
+    update(email, payload) {
         return __awaiter(this, void 0, void 0, function* () {
-            const alreadyExist = yield this.findOne(id);
+            const alreadyExist = yield this.findOne(email);
             if (alreadyExist == null) {
                 throw new Error('Client not found');
             }
             try {
-                const newClient = yield models_1.default.Client.update(payload, { where: { id } });
+                const newClient = yield models_1.default.Client.update(payload, { where: { email } });
                 return newClient;
             }
             catch (error) {
@@ -67,14 +68,14 @@ class ClientRepository {
             }
         });
     }
-    delete(id) {
+    delete(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const alreadyExist = yield this.findOne(id);
+            const alreadyExist = yield this.findOne(email);
             if (alreadyExist == null) {
                 throw new Error('Client not found');
             }
             try {
-                const clientDeleted = yield models_1.default.Client.destroy({ where: { id } });
+                const clientDeleted = yield models_1.default.Client.destroy({ where: { email } });
                 return clientDeleted;
             }
             catch (error) {
