@@ -9,7 +9,7 @@ export interface ProductsAttributes{
   price:number,
   image:string,
   stock:number,
-  state:string,
+  category:string
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
@@ -24,7 +24,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     price!: number;
     image!: string;
     stock!: number;
-    state!: string;
+    category!: string;
 
     static associate(models:any) {
       // define association here
@@ -77,10 +77,9 @@ module.exports = (sequelize:any, DataTypes:any) => {
         }
       }
     },
-    state: {
+    category:{
       type:DataTypes.STRING,
       allowNull:false,
-      defaultValue:"nuevo"
     }
   }, {
     sequelize,
