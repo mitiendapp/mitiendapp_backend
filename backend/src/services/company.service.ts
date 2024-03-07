@@ -13,9 +13,8 @@ export class CompanyService {
 
     async create(data: CompanyAttributes): Promise<CompanyAttributes> {
         try {
-            const company: CompanyAttributes = await this.companyRepository.create(data,
-                await this.userRepository.create(data, null)
-            );
+            const company: CompanyAttributes = await this.companyRepository.create(data, null);
+            await this.userRepository.create(data, null)
             return company;
         } catch (error) {
             throw error;

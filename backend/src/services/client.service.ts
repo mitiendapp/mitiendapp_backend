@@ -13,11 +13,10 @@ export class ClientService {
 
     async create(data: any): Promise<ClientAttributes> {
         try {
-            const client: ClientAttributes = await this.clientRepository.create(data,
-                await this.userRepository.create(data, null)
-            );
+            const client: ClientAttributes = await this.clientRepository.create(data, null);
+            await this.userRepository.create(data, null);
             return client;
-        } catch (error) {
+        } catch (error) { 
             throw error;
         }
     }

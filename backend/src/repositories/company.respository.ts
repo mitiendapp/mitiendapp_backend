@@ -1,6 +1,7 @@
 import { CompanyAttributes } from "../models/emprendedores";// tabla de creación
 import ICompanyRepository from "./interfaces/company.repository.interface";// interfaces, que son promesas
 import db from "../models"; // conexion
+import bcrypt from 'bcrypt';
 
 export class CompanyRepository implements ICompanyRepository<CompanyAttributes, string>{
     async findAll(): Promise<CompanyAttributes[]> {
@@ -27,12 +28,12 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error('Company already exist');
         }
         try {
+            const password = await bcrypt.hash(payload.password, 10);
+            payload.password = password;
             const company = await db.Company.create(payload);
             return company;
         } catch (error) {
-            console.log(error);
-            throw new Error("Error creating company (repository)");
-           
+            throw new Error("Error creating company (repository)");          
         }
     }
     async update(email: string, payload: any): Promise<CompanyAttributes> {

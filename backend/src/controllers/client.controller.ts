@@ -42,7 +42,7 @@ export const getClientById: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {email} = req.query;
+    const {email} = req.params;
     const clientService = new ClientService();
     try {
         const client = await clientService.find(email);
