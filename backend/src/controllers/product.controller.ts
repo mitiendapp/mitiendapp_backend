@@ -7,43 +7,6 @@ import multer, { FileFilterCallback } from 'multer'; // Importar multer
 import { uploadImage } from '../../config/cloudinary';
 
 
-export const getProductsByCompany: RequestHandler = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const idDocumentoEmpresa = req.params.idDocumentoEmpresa; // Obtener el documento de la empresa específica desde los parámetros de la URL
-        const products = await db.Product.findAll({
-            where: {
-                document: idDocumentoEmpresa // Filtrar productos por el documento de la empresa
-            }
-        });
-
-        if (!products || products.length === 0) {
-            return res.status(404).json({
-                message: "No se encontraron productos para la empresa especificada"
-            });
-        }
-
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-        return res.status(200).json({
-            message: "Productos encontrados satisfactoriamente",
-            data: products
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            message: "Ocurrió un error interno al recuperar productos"
-        });
-    }
-};
-
-
 export const getProducts = async (
     req: Request,
     res: Response,

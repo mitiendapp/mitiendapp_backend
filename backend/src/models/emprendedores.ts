@@ -32,12 +32,12 @@ module.exports = (sequelize: any, DataTypes: any) => {
     confirmPassword!:string;
 
     static associate(models: any) {
-      Company.hasMany(models.Product, {
-        foreignKey :{
-          allowNull:false,
-          name:'document'
-        }
-      })
+      // Company.hasMany(models.Product, {
+      //   foreignKey :{
+      //     allowNull:false,
+      //     name:'document'
+      //   }
+      // })
     }
   }
   Company.init({
