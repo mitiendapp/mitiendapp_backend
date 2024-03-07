@@ -30,8 +30,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
     img!:string;
     password!:string;	
     confirmPassword!:string;
+
     static associate(models: any) {
-      // define association here
+      Company.hasMany(models.Product, {
+        foreignKey :{
+          allowNull:false,
+          name:'document'
+        }
+      })
     }
   }
   Company.init({

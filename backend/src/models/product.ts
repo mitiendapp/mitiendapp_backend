@@ -27,7 +27,12 @@ module.exports = (sequelize:any, DataTypes:any) => {
     category!: string;
 
     static associate(models:any) {
-      // define association here
+      Product.belongsTo(models.Company, {
+        foreignKey: {
+          allowNull:false,
+          name:'document',
+        },
+      })
     }
   }
   Product.init({
