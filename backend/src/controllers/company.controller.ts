@@ -42,7 +42,7 @@ export const getCompanies: RequestHandler = async (
             message: error.message
         })
     }
-}
+} 
 export const getCompanyById: RequestHandler = async (
     req: Request,
     res: Response
@@ -88,7 +88,7 @@ export const deleteCompany: RequestHandler = async (
 ) => {
     const companyService = new CompanyService();
     try {
-        const {email} = req.query;
+        const {email} = req.params;
         const deletetedCompany = await companyService.delete(email);
         return res.status(201).json({
             message: "Company deleted succesfully",

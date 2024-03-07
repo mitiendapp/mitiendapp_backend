@@ -1,6 +1,7 @@
 import { ClientAttributes } from "../models/client";
 import IClientRepository from "./interfaces/client.repository.interface";
 import db from "../models";
+import bcrypt from 'bcrypt';
 
 export class ClientRepository implements IClientRepository<ClientAttributes, string>{
     async findAll(): Promise<ClientAttributes[]> {
@@ -20,13 +21,14 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
             throw new Error("Can't find client with email: " + email);
         }
     }
-    async create(payload: any, callback: any): Promise<ClientAttributes> {       
+    async create(payload: any, callback: any): Promise<ClientAttributes> {
         const alreadyExist = await this.findOne(payload.email);
-
         if(alreadyExist){
             throw new Error('Client already exist');
         }
         try {
+            const password = await bcrypt.hash(payload.password, 10);
+            payload.password = password;
             const client = await db.Client.create(payload);
             return client;
         } catch (error) {

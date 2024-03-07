@@ -3,7 +3,7 @@ import { createClient, deleteClient, getClientById, getClients, updateClient } f
 const ROUTER = Router();
 
 ROUTER.get('/clients', getClients);
-ROUTER.get('/client', getClientById);
+ROUTER.get('/client/:email', getClientById);
 ROUTER.post('/client/create', createClient);
 ROUTER.post('/client/update', updateClient);
 ROUTER.post('/client/delete', deleteClient);
