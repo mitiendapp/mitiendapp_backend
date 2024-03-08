@@ -29,7 +29,7 @@ class CompanyRepository {
     findOne(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const company = yield models_1.default.Company.findOne({ where: { email: email } });
+                const company = yield models_1.default.Company.findOne({ where: { email } });
                 return company;
             }
             catch (error) {

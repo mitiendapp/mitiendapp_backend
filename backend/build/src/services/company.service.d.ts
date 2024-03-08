@@ -1,4 +1,4 @@
-import { CompanyAttributes } from "../models/emprendedores";
+import { CompanyAttributes } from "../models/company";
 export declare class CompanyService {
     private companyRepository;
     private userRepository;

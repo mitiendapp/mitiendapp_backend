@@ -31,13 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         lastName: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true,
-                notNull: {
-                    msg: "field can't be null"
-                }
-            }
+            allowNull: true,
         },
         email: {
             type: DataTypes.STRING,
@@ -52,12 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "field can't be null"
-                }
-            }
+            allowNull: true,
         },
         password: {
             type: DataTypes.STRING,

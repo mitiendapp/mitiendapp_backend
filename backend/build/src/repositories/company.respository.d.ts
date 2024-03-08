@@ -1,4 +1,4 @@
-import { CompanyAttributes } from "../models/emprendedores";
+import { CompanyAttributes } from "../models/company";
 import ICompanyRepository from "./interfaces/company.repository.interface";
 export declare class CompanyRepository implements ICompanyRepository<CompanyAttributes, string> {
     findAll(): Promise<CompanyAttributes[]>;

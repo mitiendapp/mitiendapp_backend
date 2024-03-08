@@ -12,25 +12,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.orderSuccess = exports.receiveWebhook = exports.createOrder = void 0;
+exports.orderPending = exports.orderFailure = exports.orderSuccess = exports.receiveWebhook = exports.createOrder = void 0;
 const mercadopago_1 = __importDefault(require("mercadopago"));
-let url = "https://a797-2801-1ca-5-511-9dd6-6fad-51ac-59f.ngrok.io";
+const back_url = "https://mitiendapp-server.onrender.com/";
+const front_url = "https://mitiendapp23.netlify.app/";
 const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     let prefItem;
     let prefPayer;
     prefItem = {
         category_id: undefined,
         currency_id: undefined,
-        description: req.body.description,
-        id: req.body.id,
-        picture_url: req.body.image,
-        quantity: req.body.quantity,
-        title: req.body.name,
-        unit_price: req.body.price
+        description: req.body.product.description,
+        id: req.body.product.id,
+        picture_url: req.body.product.image,
+        quantity: req.body.product.quantity,
+        title: req.body.product.name,
+        unit_price: req.body.product.price
     };
     prefPayer = {
-        name: req.body
+        name: req.body.payer.firstName,
+        address: req.body.payer.address,
+        email: req.body.payer.email,
+        identification: req.body.payer.document,
+        surname: req.body.payer.lastName,
+        date_created: undefined,
+        phone: undefined
     };
     try {
         mercadopago_1.default.configure({
@@ -38,18 +44,20 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
         const result = yield mercadopago_1.default.preferences.create({
             items: [prefItem],
+            payer: prefPayer,
             back_urls: {
-                success: "http://localhost:4200/",
-                failure: "http://localhost:3000/api/order/failure",
-                pending: "http://localhost:3000/api/order/pending"
+                success: `${back_url}success`,
+                failure: `${back_url}failure`,
+                pending: `${back_url}pending`
             },
-            notification_url: `${url}/api/order/webhook`
+            notification_url: `${back_url}order/webhook`
         });
-        console.log("entra 2");
-        res.send(result.body);
+        res.status(201).json(result.body);
     }
     catch (err) {
-        res.sendStatus(500);
+        res.status(500).json({
+            message: err
+        });
     }
 });
 exports.createOrder = createOrder;
@@ -69,7 +77,17 @@ const receiveWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.receiveWebhook = receiveWebhook;
 const orderSuccess = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    //window.location.href="http://localhost:4200";
+    window.location.href = `${front_url}/success`;
     res.sendStatus(200);
 });
 exports.orderSuccess = orderSuccess;
+const orderFailure = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    window.location.href = `${front_url}/failure`;
+    res.sendStatus(200);
+});
+exports.orderFailure = orderFailure;
+const orderPending = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    window.location.href = `${front_url}/pending`;
+    res.sendStatus(200);
+});
+exports.orderPending = orderPending;
