@@ -30,6 +30,8 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
             const client = await db.Client.create(payload);
             return client;
         } catch (error) {
+            console.log(error);
+            
             throw new Error("Error creating client (repository)");
         }
     }

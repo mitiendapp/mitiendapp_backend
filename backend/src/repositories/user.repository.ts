@@ -1,6 +1,6 @@
 import { UserAttributes } from "../models/user";
 import IUserRepository from "./interfaces/user.repository.interface";
-import { CompanyAttributes } from "../models/emprendedores";
+import { CompanyAttributes } from "../models/company";
 import { ClientAttributes } from "../models/client";
 import db from "../models";
 import bcrypt from 'bcrypt';

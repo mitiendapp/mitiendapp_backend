@@ -160,8 +160,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
   }, {
     sequelize,
-    modelName: 'Company',
-    tableName: "Company2"
+    modelName: 'Company'
   });
   return Company;
 };

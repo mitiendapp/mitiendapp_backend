@@ -1,4 +1,4 @@
-import { CompanyAttributes } from "../models/emprendedores";
+import { CompanyAttributes } from "../models/company";
 import { CompanyRepository } from "../repositories/company.respository";
 import { UserRepository } from "../repositories/user.repository";
 

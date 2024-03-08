@@ -1,4 +1,4 @@
-import { CompanyAttributes } from "../models/emprendedores";// tabla de creación
+import { CompanyAttributes } from "../models/company";// tabla de creación
 import ICompanyRepository from "./interfaces/company.repository.interface";// interfaces, que son promesas
 import db from "../models"; // conexion
 import bcrypt from 'bcrypt';
@@ -14,7 +14,7 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
     }
     async findOne(email: string): Promise<CompanyAttributes> {
         try {
-            const company = await db.Company.findOne({where: {email:email}}); 
+            const company:CompanyAttributes = await db.Company.findOne({where:{email}}); 
             return company;
         } catch (error) {
             throw new Error("Can't find company with email: " + email);
