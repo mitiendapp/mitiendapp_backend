@@ -4,7 +4,12 @@ const sequelize_1 = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Product extends sequelize_1.Model {
         static associate(models) {
-            // define association here
+            Product.belongsTo(models.Company, {
+                foreignKey: {
+                    allowNull: false,
+                    name: 'companyId',
+                },
+            });
         }
     }
     Product.init({
@@ -54,10 +59,9 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        state: {
+        category: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: "nuevo"
         }
     }, {
         sequelize,

@@ -4,5 +4,5 @@ export interface ProductsAttributes {
     price: number;
     image: string;
     stock: number;
-    state: string;
+    category: string;
 }

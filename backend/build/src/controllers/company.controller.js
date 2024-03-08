@@ -43,7 +43,7 @@ const getCompanies = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.getCompanies = getCompanies;
 const getCompanyById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const companyService = new company_service_1.CompanyService();
     try {
         const company = yield companyService.find(email);
@@ -79,7 +79,7 @@ exports.updateCompany = updateCompany;
 const deleteCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const companyService = new company_service_1.CompanyService();
     try {
-        const { email } = req.query;
+        const { email } = req.params;
         const deletetedCompany = yield companyService.delete(email);
         return res.status(201).json({
             message: "Company deleted succesfully",

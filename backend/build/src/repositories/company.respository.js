@@ -48,7 +48,6 @@ class CompanyRepository {
                 return company;
             }
             catch (error) {
-                console.log(error);
                 throw new Error("Error creating company (repository)");
             }
         });

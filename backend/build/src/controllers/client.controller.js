@@ -43,7 +43,7 @@ const getClients = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.getClients = getClients;
 const getClientById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const clientService = new client_service_1.ClientService();
     try {
         const client = yield clientService.find(email);

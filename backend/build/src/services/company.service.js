@@ -20,7 +20,8 @@ class CompanyService {
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const company = yield this.companyRepository.create(data, yield this.userRepository.create(data, null));
+                const company = yield this.companyRepository.create(data, null);
+                yield this.userRepository.create(data, null);
                 return company;
             }
             catch (error) {

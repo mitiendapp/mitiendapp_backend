@@ -20,7 +20,8 @@ class ClientService {
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.create(data, yield this.userRepository.create(data, null));
+                const client = yield this.clientRepository.create(data, null);
+                yield this.userRepository.create(data, null);
                 return client;
             }
             catch (error) {

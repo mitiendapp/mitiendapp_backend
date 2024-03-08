@@ -4,7 +4,7 @@ const express_1 = require("express");
 const client_controller_1 = require("../controllers/client.controller");
 const ROUTER = (0, express_1.Router)();
 ROUTER.get('/clients', client_controller_1.getClients);
-ROUTER.get('/client', client_controller_1.getClientById);
+ROUTER.get('/client/:email', client_controller_1.getClientById);
 ROUTER.post('/client/create', client_controller_1.createClient);
 ROUTER.post('/client/update', client_controller_1.updateClient);
 ROUTER.post('/client/delete', client_controller_1.deleteClient);
