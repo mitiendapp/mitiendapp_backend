@@ -103,6 +103,23 @@ export const getProductById = async(
     }
 }
 
+export const getProductByCompanyId = async(
+    req:Request,
+    res:Response,
+    next:NextFunction
+)=>{
+    const {companyId} = req.params;
+    const product = await db.Product.findOne({
+        where: {companyId:companyId}
+    })
+    if(product){
+        return res.status(200).json({
+            message:"Producto encontrado satisfactoriamente",
+            data:product
+        })
+    }
+}
+
 
 export const createProduct = async (
     req: Request,
@@ -115,7 +132,7 @@ export const createProduct = async (
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
-        console.log(req.file)   
+        
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
         const cloudinaryResponse = await uploadImage(req.file.path);
@@ -124,12 +141,14 @@ export const createProduct = async (
         if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
             return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
         }
-
+        console.log(req.params.companyId)
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
             image: cloudinaryResponse.secure_url,
-            companyId: 1, //aqui tiene que llegar el id del emprendedor
+            
+            companyId: req.params.companyId //aqui tiene que llegar el id del emprendedor
+            
         });
 
         return res.status(201).json({
@@ -144,6 +163,11 @@ export const createProduct = async (
         return res.status(500).json({ message: 'Ocurrió un error interno' });
     }
 };
+
+
+
+
+
 
 // export const createProduct = async (
 //     req: Request,
