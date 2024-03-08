@@ -3,6 +3,7 @@ import { Model } from 'sequelize';
 
 
 export interface CompanyAttributes {
+  companyId: number,
   document: string,
   firstName: string,
   lastName: string,
@@ -18,7 +19,7 @@ export interface CompanyAttributes {
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class Company extends Model<CompanyAttributes> implements CompanyAttributes {
-
+    companyId!: number;
     document!: string;
     firstName!: string;
     lastName!: string;
@@ -32,19 +33,23 @@ module.exports = (sequelize: any, DataTypes: any) => {
     confirmPassword!:string;
 
     static associate(models: any) {
-      // Company.hasMany(models.Product, {
-      //   foreignKey :{
-      //     allowNull:false,
-      //     name:'document'
-      //   }
-      // })
+      Company.hasMany(models.Product, {
+        foreignKey :{
+          allowNull:false,
+          name:'companyId'
+        }
+      })
     }
   }
   Company.init({
+    companyId:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     document: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
       unique: true,
       validate: {
         notNull: {
@@ -82,8 +87,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
         }
       }
     },
-
-
 
     email: {
       type: DataTypes.STRING,

@@ -110,11 +110,12 @@ export const createProduct = async (
     next: NextFunction
 ) => {
     try {
+        console.log('si paso');
         // Verifica si se ha cargado algún archivo
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
-        console.log(req.file)
+        console.log(req.file)   
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
         const cloudinaryResponse = await uploadImage(req.file.path);
@@ -127,7 +128,8 @@ export const createProduct = async (
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
-            image: cloudinaryResponse.secure_url
+            image: cloudinaryResponse.secure_url,
+            companyId: 1, //aqui tiene que llegar el id del emprendedor
         });
 
         return res.status(201).json({
@@ -136,7 +138,9 @@ export const createProduct = async (
         });
     } catch (error) {
         // Manejo de errores
+        console.log('hplasdadsqwdasdqwdasawdfefasdf');
         console.error(error);
+        console.log('wrethhgdsdfjgadsrtyjdhgsefweref');
         return res.status(500).json({ message: 'Ocurrió un error interno' });
     }
 };

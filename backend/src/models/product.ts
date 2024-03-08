@@ -27,12 +27,12 @@ module.exports = (sequelize:any, DataTypes:any) => {
     category!: string;
 
     static associate(models:any) {
-      // Product.belongsTo(models.Company, {
-      //   foreignKey: {
-      //     allowNull:false,
-      //     name:'document',
-      //   },
-      // })
+      Product.belongsTo(models.Company, {
+        foreignKey: {
+          allowNull:false,
+          name:'companyId',
+        },
+      })
     }
   }
   Product.init({
@@ -92,4 +92,3 @@ module.exports = (sequelize:any, DataTypes:any) => {
   });
   return Product;
 };
-//cc
