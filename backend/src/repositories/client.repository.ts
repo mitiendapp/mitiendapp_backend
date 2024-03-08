@@ -27,8 +27,6 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
             throw new Error('Client already exist');
         }
         try {
-            const password = await bcrypt.hash(payload.password, 10);
-            payload.password = password;
             const client = await db.Client.create(payload);
             return client;
         } catch (error) {

@@ -7,41 +7,22 @@ import multer, { FileFilterCallback } from 'multer'; // Importar multer
 import { uploadImage } from '../../config/cloudinary';
 
 
-export const getProductsByCompany: RequestHandler = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const idDocumentoEmpresa = req.params.idDocumentoEmpresa; // Obtener el documento de la empresa específica desde los parámetros de la URL
-        const products = await db.Product.findAll({
-            where: {
-                document: idDocumentoEmpresa // Filtrar productos por el documento de la empresa
-            }
-        });
-
-        if (!products || products.length === 0) {
-            return res.status(404).json({
-                message: "No se encontraron productos para la empresa especificada"
-            });
-        }
-
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-
+export const getProductByCompanyId = async(
+    req:Request,
+    res:Response,
+    next:NextFunction
+)=>{
+    const {companyId} = req.params;
+    const product = await db.Product.findOne({
+        where: {companyId:companyId}
+    })
+    if(product){
         return res.status(200).json({
-            message: "Productos encontrados satisfactoriamente",
-            data: products
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            message: "Ocurrió un error interno al recuperar productos"
-        });
+            message:"Producto encontrado satisfactoriamente",
+            data:product
+        })
     }
-};
+}
 
 
 export const getProducts = async (
@@ -54,19 +35,6 @@ export const getProducts = async (
         
         if (!products) return res.sendStatus(404);
         
-        res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-    // Pass to next layer of middleware
     next();
 
         return res.status(200).json({
@@ -151,7 +119,6 @@ export const createProduct = async (
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
-        console.log(req.file)
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
         const cloudinaryResponse = await uploadImage(req.file.path);
@@ -164,7 +131,8 @@ export const createProduct = async (
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
-            image: cloudinaryResponse.secure_url
+            image: cloudinaryResponse.secure_url,
+            companyId:req.params.copanyId
         });
 
         return res.status(201).json({

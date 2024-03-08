@@ -35,7 +35,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       Company.hasMany(models.Product, {
         foreignKey :{
           allowNull:false,
-          name:'document'
+          name:'companyId'
         }
       })
     }

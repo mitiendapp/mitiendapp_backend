@@ -30,7 +30,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
       Product.belongsTo(models.Company, {
         foreignKey: {
           allowNull:false,
-          name:'document',
+          name:'companyId',
         },
       })
     }
