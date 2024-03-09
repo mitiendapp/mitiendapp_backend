@@ -28,8 +28,8 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error('Company already exist');
         }
         try {
-            const password = await bcrypt.hash(payload.password, 10);
-            payload.password = password;
+            // const password = await bcrypt.hash(payload.password, 10);
+            // payload.password = password;
             const company = await db.Company.create(payload);
             return company;
         } catch (error) {
