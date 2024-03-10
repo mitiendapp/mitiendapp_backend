@@ -8,13 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderPending = exports.orderFailure = exports.orderSuccess = exports.receiveWebhook = exports.createOrder = void 0;
-const mercadopago_1 = __importDefault(require("mercadopago"));
-const back_url = "https://mitiendapp-server.onrender.com/";
+const mercadopago_1 = require("mercadopago");
+const back_url = " https://df09-152-202-204-36.ngrok-free.app/api/";
 const front_url = "https://mitiendapp23.netlify.app/";
 const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let prefItem;
@@ -39,20 +36,40 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         phone: undefined
     };
     try {
-        mercadopago_1.default.configure({
-            access_token: "TEST-5979417188444398-062800-d2d07c1dea382c16ce5091b6cd5a8f3b-1409740750"
+        const client = new mercadopago_1.MercadoPagoConfig({
+            accessToken: "TEST-5979417188444398-062800-d2d07c1dea382c16ce5091b6cd5a8f3b-1409740750"
         });
-        const result = yield mercadopago_1.default.preferences.create({
-            items: [prefItem],
-            payer: prefPayer,
-            back_urls: {
-                success: `${back_url}success`,
-                failure: `${back_url}failure`,
-                pending: `${back_url}pending`
+        const payment = new mercadopago_1.Payment(client);
+        const body = {
+            transaction_amount: 12.34,
+            description: '<DESCRIPTION>',
+            payment_method_id: 'MASTER',
+            payer: {
+                email: 'santiagoosorio310@gmai.com'
             },
-            notification_url: `${back_url}order/webhook`
-        });
-        res.status(201).json(result.body);
+        };
+        payment.create({ body }).then((data) => console.log(data)).catch((data) => console.log(data));
+        // mercadopago.configure({
+        //     access_token: "TEST-5979417188444398-062800-d2d07c1dea382c16ce5091b6cd5a8f3b-1409740750"
+        // });
+        // const result = await mercadopago.preferences.create({
+        //     items: [{
+        //         title:"test",
+        //         unit_price:500,
+        //         currency_id:"COP",
+        //         quantity:1
+        //     }],
+        //     back_urls: {
+        //         success: `${back_url}success`,
+        //         failure: `${back_url}failure`,
+        //         pending: `${back_url}pending`
+        //     },
+        //     notification_url: `${back_url}order/webhook`,
+        //     payment_methods:{
+        //         default_payment_method_id:"master"
+        //     }
+        // })
+        // res.status(201).json(result.body);
     }
     catch (err) {
         res.status(500).json({
@@ -66,7 +83,7 @@ const receiveWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     const payment = req.query;
     try {
         if (payment.type == 'payment') {
-            const data = yield mercadopago_1.default.payment.findById(payment['data.id']);
+            // const data = await mercadopago.payment.findById(payment['data.id'])
         }
         res.sendStatus(204);
     }
