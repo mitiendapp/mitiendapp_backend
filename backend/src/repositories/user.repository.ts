@@ -90,13 +90,13 @@ export class UserRepository implements IUserRepository<UserAttributes, string>{
             throw new Error("Error creating user (repository)");
         }
     }
-    async update(email: string, payload: any): Promise<UserAttributes> {
-        const alreadyExist = await this.findOne(email);
+    async update(id: any, payload: any): Promise<UserAttributes> {
+        const alreadyExist = await this.findOne(id);
         if (alreadyExist == null) {
             throw new Error('User not found');
         }
         try {
-            const newUser = await db.User.update(payload, { where: { email } });
+            const newUser = await db.User.update(payload, { where: { id } });
             return newUser;
         } catch (error) {
             throw new Error("Can't update user");

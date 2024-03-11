@@ -36,13 +36,13 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error("Error creating company (repository)");          
         }
     }
-    async update(email: string, payload: any): Promise<CompanyAttributes> {
-        const alreadyExist = await this.findOne(email); 
+    async update(companyId: any, payload: any): Promise<CompanyAttributes> {
+        const alreadyExist = await this.findOne(companyId); 
         if(alreadyExist == null){
             throw new Error('Company not found');
         }
         try {
-            const newCompany = await db.Company.update(payload, {where: {email}});
+            const newCompany = await db.Company.update(payload, {where: {companyId}});
             return newCompany;
         } catch (error) {
             throw new Error("Can't update company");
