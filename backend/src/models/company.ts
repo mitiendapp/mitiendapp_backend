@@ -3,6 +3,7 @@ import { Model } from 'sequelize';
 
 
 export interface CompanyAttributes {
+  companyId: number,
   document: string,
   firstName: string,
   lastName: string,
@@ -18,7 +19,7 @@ export interface CompanyAttributes {
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class Company extends Model<CompanyAttributes> implements CompanyAttributes {
-
+    companyId!: number;
     document!: string;
     firstName!: string;
     lastName!: string;
@@ -41,10 +42,14 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
   }
   Company.init({
+    companyId:{
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     document: {
       type: DataTypes.STRING,
       allowNull: false,
-      primaryKey: true,
       unique: true,
       validate: {
         notNull: {
@@ -82,8 +87,6 @@ module.exports = (sequelize: any, DataTypes: any) => {
         }
       }
     },
-
-
 
     email: {
       type: DataTypes.STRING,
@@ -160,7 +163,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
   }, {
     sequelize,
-    modelName: 'Company'
+    modelName: 'Company',
+    tableName: "Company2"
   });
   return Company;
 };
