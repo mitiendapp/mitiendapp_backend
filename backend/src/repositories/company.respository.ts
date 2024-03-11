@@ -12,12 +12,12 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error("Can't fetch all Companys.");
         }
     }
-    async findOne(email: string): Promise<CompanyAttributes> {
+    async findOne(companyId: any): Promise<CompanyAttributes> {
         try {
-            const company:CompanyAttributes = await db.Company.findOne({where:{email}}); 
+            const company = await db.Company.findOne({where: {companyId:companyId}}); 
             return company;
         } catch (error) {
-            throw new Error("Can't find company with email: " + email);
+            throw new Error("Can't find company with companyId: " + companyId);
         }
     }
     async create(payload: any, callback: any): Promise<CompanyAttributes> {
@@ -28,19 +28,21 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error('Company already exist');
         }
         try {
+            // const password = await bcrypt.hash(payload.password, 10);
+            // payload.password = password;
             const company = await db.Company.create(payload);
             return company;
         } catch (error) {
             throw new Error("Error creating company (repository)");          
         }
     }
-    async update(email: string, payload: any): Promise<CompanyAttributes> {
-        const alreadyExist = await this.findOne(email); 
+    async update(companyId: any, payload: any): Promise<CompanyAttributes> {
+        const alreadyExist = await this.findOne(companyId); 
         if(alreadyExist == null){
             throw new Error('Company not found');
         }
         try {
-            const newCompany = await db.Company.update(payload, {where: {email}});
+            const newCompany = await db.Company.update(payload, {where: {companyId}});
             return newCompany;
         } catch (error) {
             throw new Error("Can't update company");

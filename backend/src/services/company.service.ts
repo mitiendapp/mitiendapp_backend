@@ -29,17 +29,18 @@ export class CompanyService {
             throw error;
         }
     }
-    async find(id: any): Promise<CompanyAttributes> {
+    async find(companyId: any): Promise<CompanyAttributes> {
         try {
-            const company: CompanyAttributes = await this.companyRepository.findOne(id);
+            const company: CompanyAttributes = await this.companyRepository.findOne(companyId);
             return company;
         } catch (error) {
             throw error;
         }
     }
-    async update(id: any, data: any): Promise<CompanyAttributes> {
+    async update(id:any, data: any): Promise<CompanyAttributes> {
         try {
             const company: CompanyAttributes = await this.companyRepository.update(id, data);
+            await this.userRepository.update(id, data)
             return company;
         } catch (error) {
             throw error;
