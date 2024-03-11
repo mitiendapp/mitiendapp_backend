@@ -4,4 +4,8 @@ export default interface ICompanyRepository<T, ID> {
     create(payload: any, callback: any): Promise<T>;
     update(id:any, payload: any): Promise<T>;
     delete(id: ID): Promise<T>;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> back-prueba

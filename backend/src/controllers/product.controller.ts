@@ -7,24 +7,6 @@ import multer, { FileFilterCallback } from 'multer'; // Importar multer
 import { uploadImage } from '../../config/cloudinary';
 
 
-export const getProductByCompanyId = async(
-    req:Request,
-    res:Response,
-    next:NextFunction
-)=>{
-    const {companyId} = req.params;
-    const product = await db.Product.findOne({
-        where: {companyId:companyId}
-    })
-    if(product){
-        return res.status(200).json({
-            message:"Producto encontrado satisfactoriamente",
-            data:product
-        })
-    }
-}
-
-
 export const getProducts = async (
     req: Request,
     res: Response,
@@ -108,6 +90,37 @@ export const getProductById = async(
     }
 }
 
+export const getProductsByCompanyId = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { companyId } = req.params;
+
+        // Busca todos los productos asociados al companyId especificado
+        const products = await db.Product.findAll({ where: { companyId } });
+
+        // Si se encuentran productos, se envían en la respuesta
+        if (products.length > 0) {
+            return res.status(200).json({
+                message: "Productos encontrados satisfactoriamente",
+                data: products
+            });
+        } else {
+            // Si no se encuentran productos, se devuelve un mensaje indicando que no se encontraron productos
+            return res.status(404).json({
+                message: "No se encontraron productos para el companyId especificado",
+                data: null
+            });
+        }
+    } catch (error) {
+        // Si ocurre un error, se envía una respuesta con un mensaje de error
+        console.error(error);
+        return res.status(500).json({ message: "Ocurrió un error interno" });
+    }
+};
+
 
 export const createProduct = async (
     req: Request,
@@ -115,10 +128,12 @@ export const createProduct = async (
     next: NextFunction
 ) => {
     try {
+        console.log('si paso');
         // Verifica si se ha cargado algún archivo
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
+        
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
         const cloudinaryResponse = await uploadImage(req.file.path);
@@ -127,12 +142,14 @@ export const createProduct = async (
         if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
             return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
         }
-
+        console.log(req.params.companyId)
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
             image: cloudinaryResponse.secure_url,
-            companyId:req.params.copanyId
+            
+            // companyId: req.params.companyId //aqui tiene que llegar el id del emprendedor
+            
         });
 
         return res.status(201).json({
@@ -141,10 +158,17 @@ export const createProduct = async (
         });
     } catch (error) {
         // Manejo de errores
+        console.log('hplasdadsqwdasdqwdasawdfefasdf');
         console.error(error);
+        console.log('wrethhgdsdfjgadsrtyjdhgsefweref');
         return res.status(500).json({ message: 'Ocurrió un error interno' });
     }
 };
+
+
+
+
+
 
 // export const createProduct = async (
 //     req: Request,
