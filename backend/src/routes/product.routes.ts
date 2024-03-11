@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, deleteProductHandler, getProductById, getProducts,getProductByCompanyId, updateProductHandler } from "../controllers/product.controller";
+import { createProduct, deleteProductHandler, getProductById, getProducts,getProductsByCompanyId,updateProductHandler } from "../controllers/product.controller";
 import multer from 'multer'; // Importa multer
 // const fs= require('node:js');
 import * as fs from 'fs';
@@ -17,8 +17,8 @@ const upload = multer({ dest: './uploads' });
 
 ROUTER.get('/product', getProducts);
 ROUTER.get('/product/id', getProductById);
-ROUTER.get('/product/:companyId',getProductByCompanyId);
-ROUTER.post('/product/create/:companyId',upload.single('image'),createProduct);
+ROUTER.get('/product/:companyId',getProductsByCompanyId);
+ROUTER.post('/product/create/',upload.single('image'),createProduct);
 ROUTER.post('/product/delete', deleteProductHandler)
 ROUTER.post('/product/update', updateProductHandler)
 

@@ -92,7 +92,7 @@ app.use((
 app.use('/api', router); 
 
 db.sequelize.sync().then(() => {
-    app.listen(3000, () => {
+    app.listen(3100, () => {
         console.log("Se conecto correctamente");
     });
 }).catch((e: Error) => {
