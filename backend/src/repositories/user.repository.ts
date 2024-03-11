@@ -87,7 +87,9 @@ export class UserRepository implements IUserRepository<UserAttributes, string>{
           
             return user;
         } catch (error) {
-            throw new Error("Error creating user (repository)");
+            console.log(error);
+            
+            throw new Error(`Error creating user (repository): ${error}`);
         }
     }
     async update(id: any, payload: any): Promise<UserAttributes> {

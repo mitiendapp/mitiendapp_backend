@@ -21,7 +21,7 @@ export const createPaymentLink = async (req, res) => {
     const body = {
         name: req.body.product.name, // Nombre del link de pago
         description: req.body.product.description, // Descripción del pago
-        single_use: true, // `false` current caso de que el link de pago pueda recibir múltiples transacciones APROBADAS o `true` si debe dejar de aceptar transacciones después del primer pago APROBADO
+        single_use: true, // `false` current caso de que el link d  e pago pueda recibir múltiples transacciones APROBADAS o `true` si debe dejar de aceptar transacciones después del primer pago APROBADO
         collect_shipping: false, // Si deseas que el cliente inserte su información de envío current el checkout, o no
         currency: "COP", // Únicamente está disponible pesos colombianos (COP) current el momento. En el futuro soportaremos mas monedas
         // --------------------------------------------
