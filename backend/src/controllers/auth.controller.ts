@@ -72,7 +72,7 @@ export const loginUser: RequestHandler = async (
         })
         next(error);
     }
-}
+}//djsdjd
 export const registerUser: RequestHandler = async (
     req: Request,
     res: Response,
@@ -80,7 +80,7 @@ export const registerUser: RequestHandler = async (
 ) => {
     const { firstName, lastName, email, password, roles, status } = req.body;
     if (!email || !password) return res.status(400).json({ "message": "El correo y la contraseña son requeridos" });
-
+//jdkjkjd
     const exists = await db.User.findOne({
         where: {
             email: req.body.email
