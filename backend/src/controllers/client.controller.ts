@@ -59,7 +59,7 @@ export const updateClient: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {email} = req.query;
+    const {email} = req.params;
     const clientService = new ClientService();
     try {
         const client = await clientService.update(email, req.body);
@@ -77,7 +77,7 @@ export const deleteClient: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {email} = req.query;
+    const {email} = req.params;
     const clientService = new ClientService();
     try {
         const client = await clientService.delete(email);

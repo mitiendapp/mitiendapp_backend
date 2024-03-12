@@ -31,7 +31,8 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             const company = await db.Company.create(payload);
             return company;
         } catch (error) {
-            throw new Error("Error creating company (repository)");          
+            console.error(error);
+            throw new Error(`Error creating company (repository) ${error}`);       
         }
     }
     async update(email: string, payload: any): Promise<CompanyAttributes> {

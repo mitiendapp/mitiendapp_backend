@@ -40,7 +40,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull:true,
+      allowNull:true, 
       validate:{
         notEmpty:{
           msg:"Field can't be empty"

@@ -20,5 +20,13 @@
     "database": "bh6me26blsifhbezeoh4",
     "host": "bh6me26blsifhbezeoh4-mysql.services.clever-cloud.com",
     "dialect": "mysql"
+  },
+  "santiago": {
+    "username": "uxzojr2pygtboo1c",
+    "password": "KqdUMEziM23FVfDqkNg0",
+    "database": "b6te60fwbwkrq6w39iwy",
+    "host": "b6te60fwbwkrq6w39iwy-mysql.services.clever-cloud.com",
+    "dialect": "mysql"
   }
+  
 }
