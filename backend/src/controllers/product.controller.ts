@@ -108,7 +108,7 @@ export const getProductByCompanyId = async(
 
 
 export const createProduct = async (
-    req: Request,
+    req: Request,   
     res: Response,
     next: NextFunction
 ) => {

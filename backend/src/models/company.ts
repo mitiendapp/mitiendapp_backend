@@ -109,12 +109,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "field can't be null"
-        }
-      }
+      allowNull: true,
+      defaultValue: null
     },
 
 

@@ -66,7 +66,7 @@ export const updateCompany: RequestHandler = async (
 ) => {
     const companyService = new CompanyService();
     try {
-        const {email} = req.query;
+        const {email} = req.params;
         console.log(email);
         
         const updatedCompany = await companyService.update(email, req.body );
