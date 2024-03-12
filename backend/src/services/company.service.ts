@@ -37,10 +37,9 @@ export class CompanyService {
             throw error;
         }
     }
-    async update(id:any, data: any): Promise<CompanyAttributes> {
+    async update(id: any, data: any): Promise<CompanyAttributes> {
         try {
             const company: CompanyAttributes = await this.companyRepository.update(id, data);
-            await this.userRepository.update(id, data)
             return company;
         } catch (error) {
             throw error;

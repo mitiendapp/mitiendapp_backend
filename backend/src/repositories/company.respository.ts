@@ -28,8 +28,6 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error('Company already exist');
         }
         try {
-            // const password = await bcrypt.hash(payload.password, 10);
-            // payload.password = password;
             const company = await db.Company.create(payload);
             return company;
         } catch (error) {
@@ -38,13 +36,13 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error(`Error creating company (repository): ${error}`);          
         }
     }
-    async update(companyId: any, payload: any): Promise<CompanyAttributes> {
-        const alreadyExist = await this.findOne(companyId); 
+    async update(email: string, payload: any): Promise<CompanyAttributes> {
+        const alreadyExist = await this.findOne(email); 
         if(alreadyExist == null){
             throw new Error('Company not found');
         }
         try {
-            const newCompany = await db.Company.update(payload, {where: {companyId}});
+            const newCompany = await db.Company.update(payload, {where: {email}});
             return newCompany;
         } catch (error) {
             throw new Error("Can't update company");
