@@ -12,7 +12,7 @@ ROUTER.get('/companies', getCompanies);
 ROUTER.get('/company/:companyId', getCompanyById);
 ROUTER.post('/company/create', createCompany);
 ROUTER.post('/company/update', updateCompany);
-ROUTER.post('/company/delete/:email', deleteCompany);
+ROUTER.post('/company/delete', deleteCompany);
 
 
 
