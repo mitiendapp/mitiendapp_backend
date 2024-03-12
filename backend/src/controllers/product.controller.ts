@@ -90,36 +90,22 @@ export const getProductById = async(
     }
 }
 
-export const getProductsByCompanyId = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const { companyId } = req.params;
-
-        // Busca todos los productos asociados al companyId especificado
-        const products = await db.Product.findAll({ where: { companyId } });
-
-        // Si se encuentran productos, se envían en la respuesta
-        if (products.length > 0) {
-            return res.status(200).json({
-                message: "Productos encontrados satisfactoriamente",
-                data: products
-            });
-        } else {
-            // Si no se encuentran productos, se devuelve un mensaje indicando que no se encontraron productos
-            return res.status(404).json({
-                message: "No se encontraron productos para el companyId especificado",
-                data: null
-            });
-        }
-    } catch (error) {
-        // Si ocurre un error, se envía una respuesta con un mensaje de error
-        console.error(error);
-        return res.status(500).json({ message: "Ocurrió un error interno" });
+export const getProductByCompanyId = async(
+    req:Request,
+    res:Response,
+    next:NextFunction
+)=>{
+    const {companyId} = req.params;
+    const product = await db.Product.findOne({
+        where: {companyId:companyId}
+    })
+    if(product){
+        return res.status(200).json({
+            message:"Producto encontrado satisfactoriamente",
+            data:product
+        })
     }
-};
+}
 
 
 export const createProduct = async (
@@ -148,7 +134,7 @@ export const createProduct = async (
             ...req.body,
             image: cloudinaryResponse.secure_url,
             
-            // companyId: req.params.companyId //aqui tiene que llegar el id del emprendedor
+            companyId: req.params.companyId //aqui tiene que llegar el id del emprendedor
             
         });
 
