@@ -29,8 +29,10 @@ export class ClientRepository implements IClientRepository<ClientAttributes, str
         try {
             const client = await db.Client.create(payload);
             return client;
-        } catch (error) {    
-            throw new Error(`Error creating client (repository)${error}`);
+        } catch (error) {
+            console.log(error);
+            
+            throw new Error("Error creating client (repository)");
         }
     }
     async update(email: string, payload: any): Promise<ClientAttributes> {
