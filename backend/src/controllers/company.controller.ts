@@ -66,10 +66,10 @@ export const updateCompany: RequestHandler = async (
 ) => {
     const companyService = new CompanyService();
     try {
-        const {companyId} = req.query;
-        console.log(companyId);
+        const {email} = req.query;
+        console.log(email);
         
-        const updatedCompany = await companyService.update(companyId, req.body );
+        const updatedCompany = await companyService.update(email, req.body );
         return res.status(201).json({
             message: "Datos actualizados correctamente",
             data: updatedCompany
