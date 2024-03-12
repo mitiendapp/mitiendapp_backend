@@ -12,12 +12,12 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             throw new Error("Can't fetch all Companys.");
         }
     }
-    async findOne(companyId: any): Promise<CompanyAttributes> {
+    async findOne(email: string): Promise<CompanyAttributes> {
         try {
-            const company = await db.Company.findOne({where: {companyId:companyId}}); 
+            const company = await db.Company.findOne({where: {email:email}}); 
             return company;
         } catch (error) {
-            throw new Error("Can't find company with companyId: " + companyId);
+            throw new Error("Can't find company with email: " + email);
         }
     }
     async create(payload: any, callback: any): Promise<CompanyAttributes> {

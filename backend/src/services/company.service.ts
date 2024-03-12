@@ -29,9 +29,9 @@ export class CompanyService {
             throw error;
         }
     }
-    async find(companyId: any): Promise<CompanyAttributes> {
+    async find(id: any): Promise<CompanyAttributes> {
         try {
-            const company: CompanyAttributes = await this.companyRepository.findOne(companyId);
+            const company: CompanyAttributes = await this.companyRepository.findOne(id);
             return company;
         } catch (error) {
             throw error;

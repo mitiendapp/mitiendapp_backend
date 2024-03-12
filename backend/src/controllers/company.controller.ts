@@ -47,10 +47,10 @@ export const getCompanyById: RequestHandler = async (
     req: Request,
     res: Response
 ) => {
-    const { companyId } = req.params;
+    const { email } = req.params;
     const companyService = new CompanyService();
     try {
-        const company = await companyService.find(companyId);
+        const company = await companyService.find(email);
         return res.status(200).json({
             company
         })
