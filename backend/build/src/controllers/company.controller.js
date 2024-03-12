@@ -61,7 +61,7 @@ exports.getCompanyById = getCompanyById;
 const updateCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const companyService = new company_service_1.CompanyService();
     try {
-        const { email } = req.query;
+        const { email } = req.params;
         console.log(email);
         const updatedCompany = yield companyService.update(email, req.body);
         return res.status(201).json({

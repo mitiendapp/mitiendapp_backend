@@ -76,12 +76,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         phoneNumber: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: "field can't be null"
-                }
-            }
+            allowNull: true,
+            defaultValue: null
         },
         description: {
             type: DataTypes.STRING,

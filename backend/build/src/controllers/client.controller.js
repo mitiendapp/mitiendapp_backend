@@ -59,7 +59,7 @@ const getClientById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 exports.getClientById = getClientById;
 const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const clientService = new client_service_1.ClientService();
     try {
         const client = yield clientService.update(email, req.body);
@@ -76,7 +76,7 @@ const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.updateClient = updateClient;
 const deleteClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const clientService = new client_service_1.ClientService();
     try {
         const client = yield clientService.delete(email);

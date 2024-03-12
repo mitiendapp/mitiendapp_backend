@@ -49,8 +49,8 @@ class ClientRepository {
                 return client;
             }
             catch (error) {
-                console.log(error);
-                throw new Error("Error creating client (repository)");
+                console.error(error);
+                throw new Error(`Error creating Client (repository) ${error}`);
             }
         });
     }
