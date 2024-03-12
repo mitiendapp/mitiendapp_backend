@@ -14,10 +14,10 @@ const ROUTER = Router();
 
 const upload = multer({ dest: './uploads' });
 
-
 ROUTER.get('/product', getProducts);
 ROUTER.get('/product/id', getProductById);
-ROUTER.get('/product/:companyId',getProductByCompanyId);
+ROUTER.get('/product/:companyId', getProductByCompanyId);
+ROUTER.post('/product/create',upload.single('image'),createProduct);
 ROUTER.post('/product/create/:companyId',upload.single('image'),createProduct);
 ROUTER.post('/product/delete', deleteProductHandler)
 ROUTER.post('/product/update', updateProductHandler)

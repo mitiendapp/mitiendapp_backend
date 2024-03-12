@@ -92,3 +92,4 @@ module.exports = (sequelize:any, DataTypes:any) => {
   });
   return Product;
 };
+//cc
