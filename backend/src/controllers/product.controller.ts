@@ -5,6 +5,7 @@ import { UploadedFile } from "express-fileupload"; // Importar UploadedFile
 import multer, { FileFilterCallback } from 'multer'; // Importar multer
 // import { adaptarNameImage } from "../routes/product.routes";
 import { uploadImage } from '../../config/cloudinary';
+import { Model } from "sequelize";
 
 export const getProducts = async (
     req: Request,
@@ -94,9 +95,27 @@ export const getProductByCompanyId = async(
     res:Response,
     next:NextFunction
 )=>{
-    const {companyId} = req.params;
+    const CompanyDocument = req.params.companyId;
+    console.log(CompanyDocument);
     const product = await db.Product.findOne({
-        where: {companyId:companyId}
+        where: {CompanyDocument:CompanyDocument}
+    })
+    if(product){
+        return res.status(200).json({
+            message:"Producto encontrado satisfactoriamente",
+            data:product
+        })
+    }
+}
+export const getProducstByCompanyId = async(
+    req:Request,
+    res:Response,
+    next:NextFunction
+)=>{
+    const CompanyDocument = req.params.companyId;
+    console.log(CompanyDocument);
+    const product = await db.Product.findAll({
+        where: {CompanyDocument:CompanyDocument}
     })
     if(product){
         return res.status(200).json({
@@ -113,28 +132,24 @@ export const createProduct = async (
     next: NextFunction
 ) => {
     try {
-        console.log(req.file?.path);
-        
+        const CompanyDocument:string = req.params.companyId;
         // Verifica si se ha cargado algún archivo
-        if (!req.file) {
+        if (req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
-        const cloudinaryResponse = await uploadImage(req.file.path);
+        // const cloudinaryResponse = await uploadImage(req.file.path);
 
         // // Verifica si la carga en Cloudinary fue exitosa
-        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
-            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
-        }
-
+        // if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+        //     return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        // }
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
-            image: cloudinaryResponse.secure_url,
-            
-            companyId: req.params.companyId //aqui tiene que llegar el id del emprendedor
-            
+            CompanyDocument
+            // image: cloudinaryResponse.secure_url,
         });
 
         return res.status(201).json({

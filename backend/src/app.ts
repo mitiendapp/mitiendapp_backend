@@ -5,7 +5,7 @@ import { json, urlencoded } from 'body-parser';
 import './auth/passport'; 
 import cors from 'cors';
 import { products } from './seeders/products';
-import fileUpload from 'express-fileupload';
+// import fileUpload from 'express-fileupload';
 const app = express(); 
 
 // products.forEach((p)=>{
@@ -38,10 +38,10 @@ app.use((
     })
 })
 /***************************************** */
-app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : './uploads'
-}));
+// app.use(fileUpload({
+//     useTempFiles : true,
+//     tempFileDir : './uploads'
+// }));
 /***************************************** */
 app.use('/api', router); 
 

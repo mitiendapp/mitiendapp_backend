@@ -27,12 +27,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     category!: string;
 
     static associate(models:any) {
-      Product.belongsTo(models.Company, {
-        foreignKey: {
-          allowNull:false,
-          name:'companyId',
-        },
-      })
+      Product.belongsTo(models.Company);
     }
   }
   Product.init({

@@ -1,7 +1,6 @@
 'use strict';
 import { Model } from 'sequelize';
 
-
 export interface CompanyAttributes {
   document: string,
   firstName: string,
@@ -32,12 +31,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     confirmPassword!:string;
 
     static associate(models: any) {
-      Company.hasMany(models.Product, {
-        foreignKey :{
-          allowNull:false,
-          name:'companyId'
-        }
-      })
+      Company.hasMany(models.Product);
     }
   }
   Company.init({
