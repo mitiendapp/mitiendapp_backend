@@ -113,6 +113,8 @@ export const createProduct = async (
     next: NextFunction
 ) => {
     try {
+        console.log(req.file?.path);
+        
         // Verifica si se ha cargado algún archivo
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
