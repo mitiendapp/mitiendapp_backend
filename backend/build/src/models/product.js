@@ -4,12 +4,7 @@ const sequelize_1 = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Product extends sequelize_1.Model {
         static associate(models) {
-            Product.belongsTo(models.Company, {
-                foreignKey: {
-                    allowNull: false,
-                    name: 'companyId',
-                },
-            });
+            Product.belongsTo(models.Company);
         }
     }
     Product.init({

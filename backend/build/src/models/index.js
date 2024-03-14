@@ -18,7 +18,7 @@ if (config.use_env_variable) {
     sequelize = new Sequelize(process.env[config.use_env_variable], config);
 }
 else {
-    sequelize = new Sequelize(config.production.database, config.production.username, config.production.password, { host: config.production.host, dialect: config.production.dialect });
+    sequelize = new Sequelize(config.santiago.database, config.santiago.username, config.santiago.password, { host: config.santiago.host, dialect: config.santiago.dialect });
 }
 fs
     .readdirSync(__dirname)

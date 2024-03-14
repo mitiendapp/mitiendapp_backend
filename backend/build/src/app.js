@@ -9,7 +9,7 @@ const router_1 = __importDefault(require("./routes/router"));
 const body_parser_1 = require("body-parser");
 require("./auth/passport");
 const cors_1 = __importDefault(require("cors"));
-const express_fileupload_1 = __importDefault(require("express-fileupload"));
+// import fileUpload from 'express-fileupload';
 const app = (0, express_1.default)();
 // products.forEach((p)=>{
 //     //console.log(p);
@@ -32,10 +32,10 @@ app.use((err, req, res, next) => {
     });
 });
 /***************************************** */
-app.use((0, express_fileupload_1.default)({
-    useTempFiles: true,
-    tempFileDir: './uploads'
-}));
+// app.use(fileUpload({
+//     useTempFiles : true,
+//     tempFileDir : './uploads'
+// }));
 /***************************************** */
 app.use('/api', router_1.default);
 index_1.default.sequelize.sync().then(() => {

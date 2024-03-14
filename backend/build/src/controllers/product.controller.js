@@ -12,10 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProduct = exports.getProductByCompanyId = exports.getProductById = exports.updateProductHandler = exports.deleteProductHandler = exports.getProducts = void 0;
+exports.createProduct = exports.getProducstByCompanyId = exports.getProductByCompanyId = exports.getProductById = exports.updateProductHandler = exports.deleteProductHandler = exports.getProducts = void 0;
 const models_1 = __importDefault(require("../models"));
-// import { adaptarNameImage } from "../routes/product.routes";
-const cloudinary_1 = require("../../config/cloudinary");
 const getProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const products = yield models_1.default.Product.findAll();
@@ -74,9 +72,10 @@ const getProductById = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.getProductById = getProductById;
 const getProductByCompanyId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { companyId } = req.params;
+    const CompanyDocument = req.params.companyId;
+    console.log(CompanyDocument);
     const product = yield models_1.default.Product.findOne({
-        where: { companyId: companyId }
+        where: { CompanyDocument: CompanyDocument }
     });
     if (product) {
         return res.status(200).json({
@@ -86,21 +85,37 @@ const getProductByCompanyId = (req, res, next) => __awaiter(void 0, void 0, void
     }
 });
 exports.getProductByCompanyId = getProductByCompanyId;
+const getProducstByCompanyId = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const CompanyDocument = req.params.companyId;
+    console.log(CompanyDocument);
+    const product = yield models_1.default.Product.findAll({
+        where: { CompanyDocument: CompanyDocument }
+    });
+    if (product) {
+        return res.status(200).json({
+            message: "Producto encontrado satisfactoriamente",
+            data: product
+        });
+    }
+});
+exports.getProducstByCompanyId = getProducstByCompanyId;
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const CompanyDocument = req.params.companyId;
         // Verifica si se ha cargado algún archivo
-        if (!req.file) {
+        if (req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
-        const cloudinaryResponse = yield (0, cloudinary_1.uploadImage)(req.file.path);
+        // const cloudinaryResponse = await uploadImage(req.file.path);
         // // Verifica si la carga en Cloudinary fue exitosa
-        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
-            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
-        }
+        // if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+        //     return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        // }
         // Crea un nuevo producto en la base de datos
-        const product = yield models_1.default.Product.create(Object.assign(Object.assign({}, req.body), { image: cloudinaryResponse.secure_url, companyId: req.params.companyId //aqui tiene que llegar el id del emprendedor
+        const product = yield models_1.default.Product.create(Object.assign(Object.assign({}, req.body), { CompanyDocument
+            // image: cloudinaryResponse.secure_url,
          }));
         return res.status(201).json({
             message: 'Producto creado satisfactoriamente',
