@@ -19,7 +19,7 @@ ROUTER.get('/product/id', getProductById);
 ROUTER.get('/product/company/:companyId', getProductByCompanyId);
 ROUTER.get('/product/companies/:companyId', getProducstByCompanyId);
 ROUTER.post('/product/create',createProduct);
-ROUTER.post('/product/create/:companyId',createProduct);
+ROUTER.post('/product/create/:companyId', upload.single('image') ,createProduct);
 ROUTER.post('/product/delete', deleteProductHandler)
 ROUTER.post('/product/update', updateProductHandler)
 

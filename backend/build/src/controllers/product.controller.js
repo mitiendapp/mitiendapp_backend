@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createProduct = exports.getProducstByCompanyId = exports.getProductByCompanyId = exports.getProductById = exports.updateProductHandler = exports.deleteProductHandler = exports.getProducts = void 0;
 const models_1 = __importDefault(require("../models"));
+// import { adaptarNameImage } from "../routes/product.routes";
+const cloudinary_1 = require("../../config/cloudinary");
 const getProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const products = yield models_1.default.Product.findAll();
@@ -103,20 +105,18 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     try {
         const CompanyDocument = req.params.companyId;
         // Verifica si se ha cargado algún archivo
-        if (req.file) {
+        if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
-        // const cloudinaryResponse = await uploadImage(req.file.path);
-        // // Verifica si la carga en Cloudinary fue exitosa
-        // if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
-        //     return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
-        // }
+        const cloudinaryResponse = yield (0, cloudinary_1.uploadImage)(req.file.path);
+        // Verifica si la carga en Cloudinary fue exitosa
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
         // Crea un nuevo producto en la base de datos
-        const product = yield models_1.default.Product.create(Object.assign(Object.assign({}, req.body), { CompanyDocument
-            // image: cloudinaryResponse.secure_url,
-         }));
+        const product = yield models_1.default.Product.create(Object.assign(Object.assign({}, req.body), { CompanyDocument, image: cloudinaryResponse.secure_url }));
         return res.status(201).json({
             message: 'Producto creado satisfactoriamente',
             data: product,

@@ -134,22 +134,22 @@ export const createProduct = async (
     try {
         const CompanyDocument:string = req.params.companyId;
         // Verifica si se ha cargado algún archivo
-        if (req.file) {
+        if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
         }
         //   const adaptar = adaptarNameImage(req.file.path)
         // Carga la imagen en Cloudinary
-        // const cloudinaryResponse = await uploadImage(req.file.path);
+        const cloudinaryResponse = await uploadImage(req.file.path);
 
-        // // Verifica si la carga en Cloudinary fue exitosa
-        // if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
-        //     return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
-        // }
+        // Verifica si la carga en Cloudinary fue exitosa
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
-            CompanyDocument
-            // image: cloudinaryResponse.secure_url,
+            CompanyDocument,
+            image: cloudinaryResponse.secure_url,
         });
 
         return res.status(201).json({
