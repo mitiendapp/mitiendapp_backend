@@ -13,6 +13,7 @@ exports.orderPending = exports.orderFailure = exports.orderSuccess = exports.rec
 const mercadopago_1 = require("mercadopago");
 const back_url = " https://df09-152-202-204-36.ngrok-free.app/api/";
 const front_url = "https://mitiendapp23.netlify.app/";
+const secret = "test_events_Du22wRnRmlltx7Tm3iY7ltWT8GLWXsTf";
 const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let prefItem;
     let prefPayer;
@@ -78,18 +79,34 @@ const createOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.createOrder = createOrder;
+const findProperties = (obj, fn) => Object.keys(obj).filter(key => fn(obj[key], key, obj));
 const receiveWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.query);
-    const payment = req.query;
+    const { data, event, signature, timestamp } = req.body;
     try {
-        if (payment.type == 'payment') {
-            // const data = await mercadopago.payment.findById(payment['data.id'])
+        const properties = signature.properties.map((e) => e.split('.'));
+        let newP = properties.map((property) => {
+            return (data[property[0]][property[1]]);
+        }).reduce((prev, curr) => prev + curr);
+        newP += timestamp;
+        newP += secret;
+        const mySha = yield sha256(newP);
+        if (signature.checksum === mySha) {
+            if (event == 'transaction.updated') {
+                // on tansaction updated
+            }
+            else if (event == 'nequi_token.updated') {
+                // on nequi token updated
+            }
+            res.status(200).json({ transaction: data.transaction });
         }
-        res.sendStatus(204);
+        else {
+            throw new Error('Signature insecure');
+        }
+        ;
     }
     catch (err) {
         console.log(err);
-        return res.send(500).json({ message: err });
+        return res.status(500).json({ message: err });
     }
 });
 exports.receiveWebhook = receiveWebhook;
@@ -108,3 +125,16 @@ const orderPending = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     res.sendStatus(200);
 });
 exports.orderPending = orderPending;
+function sha256(message) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // encode as UTF-8
+        const msgBuffer = new TextEncoder().encode(message);
+        // hash the message
+        const hashBuffer = yield crypto.subtle.digest('SHA-256', msgBuffer);
+        // convert ArrayBuffer to Array
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        // convert bytes to hex string                  
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    });
+}

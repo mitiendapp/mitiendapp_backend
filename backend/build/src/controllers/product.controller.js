@@ -103,7 +103,6 @@ const getProducstByCompanyId = (req, res, next) => __awaiter(void 0, void 0, voi
 exports.getProducstByCompanyId = getProducstByCompanyId;
 const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const CompanyDocument = req.params.companyId;
         // Verifica si se ha cargado algún archivo
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
@@ -116,7 +115,7 @@ const createProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
         }
         // Crea un nuevo producto en la base de datos
-        const product = yield models_1.default.Product.create(Object.assign(Object.assign({}, req.body), { CompanyDocument, image: cloudinaryResponse.secure_url }));
+        const product = yield models_1.default.Product.create(Object.assign(Object.assign({}, req.body), { image: cloudinaryResponse.secure_url }));
         return res.status(201).json({
             message: 'Producto creado satisfactoriamente',
             data: product,
