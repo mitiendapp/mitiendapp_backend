@@ -3,8 +3,25 @@ import e, { NextFunction, Request, Response } from "express";
 import { MercadoPagoConfig, Payment, } from 'mercadopago';
 import mercadopago from 'mercadopago';
 import { PreferenceItem, PreferencePayer } from "mercadopago/models/preferences/create-payload.model";
+
 const back_url = " https://df09-152-202-204-36.ngrok-free.app/api/"
 const front_url = "https://mitiendapp23.netlify.app/"
+const secret = "test_events_Du22wRnRmlltx7Tm3iY7ltWT8GLWXsTf";
+interface paymentAttributes {
+    event: string, // Nombre del tipo de evento
+    data: {
+        // Data específica del evento
+    },
+    environment: string, // test para Sandbox, prod para Producción
+    signature: {
+        properties: [
+            // Lista de propiedades con las que se construye la firma
+        ],
+        checksum: string // Hash calculado con una firma asimétrica SHA256
+    },
+    timestamp: number, // Timestamp UNIX del evento usado para la firma del mismo
+    sent_at: string // Fecha current la que se notificó el evento por primera vez
+}
 
 export const createOrder = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -44,7 +61,7 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
                 email: 'santiagoosorio310@gmai.com'
             },
         }
-        payment.create({body}).then((data)=>console.log(data)).catch((data)=>console.log(data));
+        payment.create({ body }).then((data) => console.log(data)).catch((data) => console.log(data));
 
         // mercadopago.configure({
         //     access_token: "TEST-5979417188444398-062800-d2d07c1dea382c16ce5091b6cd5a8f3b-1409740750"
@@ -73,18 +90,35 @@ export const createOrder = async (req: Request, res: Response, next: NextFunctio
         });
     }
 }
+const findProperties = (obj, fn) =>
+    Object.keys(obj).filter(key => fn(obj[key], key, obj));
 
 export const receiveWebhook = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.query);
-    const payment: any = req.query;
+    const { data, event, signature, timestamp }: paymentAttributes = req.body;
     try {
-        if (payment.type == 'payment') {
-            // const data = await mercadopago.payment.findById(payment['data.id'])
-        }
-        res.sendStatus(204);
+        const properties = signature.properties.map((e: string) => e.split('.'));
+        let newP = properties.map((property) => {
+            return (data[property[0]][property[1]]);
+
+        }).reduce((prev, curr) => prev + curr);
+        newP += timestamp;
+        newP += secret;
+        const mySha = await sha256(newP);
+        if (signature.checksum === mySha) {
+            if (event == 'transaction.updated') {
+                // on tansaction updated
+            } else if (event == 'nequi_token.updated') {
+                // on nequi token updated
+            }
+            res.status(200).json(
+                {transaction: data.transaction} 
+            );
+        } else {
+            throw new Error('Signature insecure');
+        };
     } catch (err) {
         console.log(err);
-        return res.send(500).json({ message: err })
+        return res.status(500).json({ message: err })
 
     }
 }
@@ -100,5 +134,20 @@ export const orderFailure = async (req: Request, res: Response, next: NextFuncti
 export const orderPending = async (req: Request, res: Response, next: NextFunction) => {
     window.location.href = `${front_url}/pending`;
     res.sendStatus(200);
+}
+
+async function sha256(message) {
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder().encode(message);
+
+    // hash the message
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+    // convert ArrayBuffer to Array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    // convert bytes to hex string                  
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
 }
 
