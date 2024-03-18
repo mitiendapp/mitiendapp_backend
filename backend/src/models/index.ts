@@ -41,7 +41,7 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-
+//omitan esto
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
