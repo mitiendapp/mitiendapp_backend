@@ -132,7 +132,7 @@ export const createProduct = async (
     next: NextFunction
 ) => {
     try {
-        const CompanyDocument:string = req.params.companyId;
+       
         // Verifica si se ha cargado algún archivo
         if (!req.file) {
             return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
@@ -148,7 +148,6 @@ export const createProduct = async (
         // Crea un nuevo producto en la base de datos
         const product = await db.Product.create({
             ...req.body,
-            CompanyDocument,
             image: cloudinaryResponse.secure_url,
         });
 
