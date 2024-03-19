@@ -106,7 +106,7 @@ export const receiveWebhook = async (req: Request, res: Response, next: NextFunc
         const mySha = await sha256(newP);
         if (signature.checksum === mySha) {
             if (event == 'transaction.updated') {
-                // on tansaction updated
+                // enviar correo 
             } else if (event == 'nequi_token.updated') {
                 // on nequi token updated
             }
