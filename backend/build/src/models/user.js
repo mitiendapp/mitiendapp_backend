@@ -61,6 +61,10 @@ module.exports = (sequelize, DataTypes) => {
         status: {
             type: DataTypes.STRING,
             defaultValue: "active"
+        },
+        profile_image: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
     }, {
         sequelize,

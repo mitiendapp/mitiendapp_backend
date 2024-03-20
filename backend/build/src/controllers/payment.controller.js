@@ -92,7 +92,7 @@ const receiveWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         const mySha = yield sha256(newP);
         if (signature.checksum === mySha) {
             if (event == 'transaction.updated') {
-                // on tansaction updated
+                // enviar correo 
             }
             else if (event == 'nequi_token.updated') {
                 // on nequi token updated

@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.getUserById = exports.getUsers = exports.createUser = void 0;
+exports.deleteUser = exports.updateUserImage = exports.updateUser = exports.getUserById = exports.getUsers = exports.createUser = void 0;
 const user_service_1 = require("../services/user.service");
+const cloudinary_1 = require("../../config/cloudinary");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userService = new user_service_1.UserService();
     try {
@@ -43,7 +44,7 @@ const getUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getUsers = getUsers;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const userService = new user_service_1.UserService();
     try {
         const user = yield userService.find(email);
@@ -59,7 +60,7 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getUserById = getUserById;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const userService = new user_service_1.UserService();
     try {
         const user = yield userService.update(email, req.body);
@@ -75,8 +76,35 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateUser = updateUser;
+const updateUserImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.file) {
+        return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+    }
+    //   const adaptar = adaptarNameImage(req.file.path)
+    // Carga la imagen en Cloudinary
+    const cloudinaryResponse = yield (0, cloudinary_1.uploadImage)(req.file.path);
+    // Verifica si la carga en Cloudinary fue exitosa
+    if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+        return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+    }
+    const { email } = req.params;
+    const userService = new user_service_1.UserService();
+    try {
+        const user = yield userService.update(email, Object.assign(Object.assign({}, req.body), { profile_image: cloudinaryResponse.secure_url }));
+        return res.status(200).json({
+            message: "User updated succesfully",
+            statuscode: user
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.updateUserImage = updateUserImage;
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email } = req.query;
+    const { email } = req.params;
     const userService = new user_service_1.UserService();
     try {
         const user = yield userService.delete(email);

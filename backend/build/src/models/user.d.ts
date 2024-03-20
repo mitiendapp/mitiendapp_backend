@@ -6,4 +6,5 @@ export interface UserAttributes {
     password: string;
     roles: object;
     status: string;
+    profile_image?: string;
 }
