@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import db from "../models";
 import { UserService } from "../services/user.service";
 import { TokenExpiredError } from "jsonwebtoken";
+import { uploadImage } from "../../config/cloudinary";
 
 export const createUser: RequestHandler = async (
     req:Request,
@@ -42,7 +43,7 @@ export const getUserById: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {email} = req.query;
+    const {email} = req.params;
     const userService = new UserService();
     try {
         const user = await userService.find(email);    
@@ -59,10 +60,42 @@ export const updateUser: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {email} = req.query;
+    const {email} = req.params;
     const userService = new UserService();
     try {
         const user = await userService.update(email, req.body);
+        return res.status(200).json({
+            message: "User updated succesfully",
+            statuscode: user
+        })
+    } catch (error:any) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+}
+export const updateUserImage: RequestHandler = async(
+    req:Request,
+    res:Response
+)=>{
+    if (!req.file) {
+        return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+    }
+    //   const adaptar = adaptarNameImage(req.file.path)
+    // Carga la imagen en Cloudinary
+    const cloudinaryResponse = await uploadImage(req.file.path);
+
+    // Verifica si la carga en Cloudinary fue exitosa
+    if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+        return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+    }
+    const {email} = req.params;
+    const userService = new UserService();
+    try {
+        const user = await userService.update(email, {
+            ...req.body,
+            profile_image: cloudinaryResponse.secure_url
+        });
         return res.status(200).json({
             message: "User updated succesfully",
             statuscode: user
@@ -77,7 +110,7 @@ export const deleteUser: RequestHandler = async(
     req:Request,
     res:Response
 )=>{
-    const {email} = req.query;
+    const {email} = req.params;
     const userService = new UserService();
     try {
         const user = await userService.delete(email);

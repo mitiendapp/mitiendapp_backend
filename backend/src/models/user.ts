@@ -10,7 +10,8 @@ export interface UserAttributes{
   email:string,
   password:string,
   roles:object,
-  status:string
+  status:string,
+  profile_image?:string,
 }
 
 module.exports = (sequelize:any, DataTypes:any) => {
@@ -27,6 +28,7 @@ module.exports = (sequelize:any, DataTypes:any) => {
     password!: string;
     roles!: object;
     status!: string;
+    profile_image?: string | undefined;
 
     static associate(models:any) {
       // define association here
@@ -87,6 +89,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
     status: {
       type: DataTypes.STRING,
       defaultValue:"active"
+    },
+    profile_image:{
+      type: DataTypes.STRING,
+      allowNull:true
     }
   }, {
     sequelize, 
