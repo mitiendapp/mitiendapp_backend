@@ -6,7 +6,7 @@ import * as fs from 'fs';
 
 
 // export function adaptarNameImage(file){
-//     const newpath = `./uploads/${file.originalname}`;
+//     const newpath = ./uploads/${file.originalname};
 //      fs.renameSync(file.path,newpath)
 //      return newpath;
 // }
@@ -18,10 +18,9 @@ ROUTER.get('/product', getProducts);
 ROUTER.get('/product/id', getProductById);
 ROUTER.get('/product/company/:companyId', getProductByCompanyId);
 ROUTER.get('/product/companies/:companyId', getProducstByCompanyId);
-// ROUTER.post('/product/create',createProduct);
 ROUTER.post('/product/create/',upload.single('image'),createProduct);
 ROUTER.post('/product/delete', deleteProductHandler)
-ROUTER.post('/product/update', updateProductHandler)
+ROUTER.post('/product/update',upload.single('image'),updateProductHandler)
 
 
 module.exports = ROUTER;

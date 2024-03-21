@@ -47,29 +47,53 @@ export const deleteProductHandler:RequestHandler = async (
     )
 }
 
+/*prueba busqueda solo un producto */
+
+
 
 export const updateProductHandler = async (
     req:Request,
     res:Response,
     next:NextFunction
 )=>{
-    const id:number = req.body.id;  
+    try{
+        const id:number = req.body.id;  
 
-    if(!id){
-        return res.status(400).json(
+        if(!id){
+            return res.status(400).json(
+                {
+                    message:"Id missing"    
+                }
+            )
+        }
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+        }
+        console.log(req.file)
+        //   const adaptar = adaptarNameImage(req.file.path)
+        // Carga la imagen en Cloudinary
+        const cloudinaryResponse = await uploadImage(req.file.path);
+
+        // Verifica si la carga en Cloudinary fue exitosa
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
+        await db.Product.update({...req.body,image:cloudinaryResponse.secure_url},{where: {id} })
+        const product = await db.Product.findByPk(id);
+        return res.status(200).json(
             {
-                message:"Id missing"    
+                message:"Product updated succesfully",
+                data: product
             }
         )
+
+    }catch(error){
+        // Manejo de errores
+        console.error(error);
+        return res.status(500).json({ message: 'Ocurrió un error interno' });
+
     }
-    await db.Product.update({...req.body},{where: {id} })
-    const product = await db.Product.findByPk(id);
-    return res.status(200).json(
-        {
-            message:"Product updated succesfully",
-            data: product
-        }
-    )
+   
 }
 
 
