@@ -12,3 +12,9 @@ export async function uploadImage(filePath:string){
      folder: 'replit'
   })
 }
+
+export async function uploadImageFondo(filePath:string){
+  return await cloudinary.uploader.upload(filePath,{
+     folder: 'Portada'
+  })
+}

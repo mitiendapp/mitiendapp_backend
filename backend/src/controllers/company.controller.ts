@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler } from "express";
 import db from "../models";
 import { CompanyService } from "../services/company.service";
 import { Response } from "express";
+import { uploadImageFondo } from '../../config/cloudinary';
 
 
 
@@ -81,6 +82,41 @@ export const updateCompany: RequestHandler = async (
     }
 };
 
+export const updateCompanyImage: RequestHandler = async (
+    req: Request,
+    res: Response
+) => {
+    const companyService = new CompanyService();
+    try {
+
+        const {email} = req.params;
+        console.log(email);
+          console.log(req.file)
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+        }
+        
+        const cloudinaryResponse = await uploadImageFondo(req.file.path);
+
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
+
+        const updatedImage = {
+            img: cloudinaryResponse.secure_url // Utiliza la URL de la imagen subida a Cloudinary
+        };
+
+        const updatedCompany = await companyService.update(email,updatedImage);
+        return res.status(201).json({
+            message: "Imagen actualizada correctamente",
+            data: updatedCompany
+        });
+    } catch (error: any) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+};
 
 export const deleteCompany: RequestHandler = async (
     req: Request,
