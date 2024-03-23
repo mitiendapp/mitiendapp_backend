@@ -13,8 +13,12 @@ export class CompanyService {
 
     async create(data: CompanyAttributes): Promise<CompanyAttributes> {
         try {
-            const company: CompanyAttributes = await this.companyRepository.create(data, null);
             await this.userRepository.create(data, null)
+            const comp: any = {
+                ...data,
+                UserId: data.document
+            }
+            const company: CompanyAttributes = await this.companyRepository.create(comp, null);
             return company;
         } catch (error) {
             throw error;
@@ -54,5 +58,12 @@ export class CompanyService {
             throw error;
         }
     }
-
+    async getCompanyUsers(): Promise<CompanyAttributes> {
+        try {
+            const companies: any = await this.companyRepository.findAllUsers();
+            return companies
+        } catch (error) {
+            throw error;
+        }
+    }
 }

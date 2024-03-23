@@ -13,8 +13,12 @@ export class ClientService {
 
     async create(data: any): Promise<ClientAttributes> {
         try {
-            const client: ClientAttributes = await this.clientRepository.create(data, null);
-            await this.userRepository.create(data, null);
+            await this.userRepository.create(data, null); 
+            const cli:any = {
+                ...data,
+                UserId: data.document
+            } 
+            const client: ClientAttributes = await this.clientRepository.create(cli, null);
             return client;
         } catch (error) { 
             throw error;

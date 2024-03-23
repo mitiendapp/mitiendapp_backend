@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createCompany,getCompanies,getCompanyById,updateCompany,deleteCompany} from "../controllers/company.controller"
+import {createCompany,getCompanies,getCompanyById,updateCompany,deleteCompany, getCompanyUsers} from "../controllers/company.controller"
 const ROUTER = Router();
 
 
@@ -7,7 +7,7 @@ const ROUTER = Router();
 
 //company
 
-
+ROUTER.get('/company/users', getCompanyUsers);
 ROUTER.get('/companies', getCompanies);
 ROUTER.get('/company/:email', getCompanyById);
 ROUTER.post('/company/create', createCompany);

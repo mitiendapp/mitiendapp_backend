@@ -10,6 +10,7 @@ export const createCompany: RequestHandler = async (
     res: Response,
 ) => {
     const companyService = new CompanyService();
+    // req.body.UserId = req.body.document;
     try {
         const company = await companyService.create({ ...req.body });
         return res.status(201).json(
@@ -98,5 +99,24 @@ export const deleteCompany: RequestHandler = async (
         return res.status(500).json({
             message: error.message
         });
+    }
+};
+export const getCompanyUsers: RequestHandler = async (
+    req: Request,
+    res: Response
+) => {
+    const companyService = new CompanyService();
+    try {
+
+        const companies = await companyService.getCompanyUsers();
+        return res.status(201).json(
+            {
+                companies
+            }
+        )
+    } catch (error: any) {
+        return res.status(500).json({
+            message: error.message
+        })
     }
 };

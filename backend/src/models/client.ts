@@ -27,6 +27,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     password!: string;
     static associate(models: any) {
       // define association here
+      this.belongsTo(models.User);
     }
   }
   Client.init({

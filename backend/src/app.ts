@@ -5,6 +5,7 @@ import { json, urlencoded } from 'body-parser';
 import './auth/passport'; 
 import cors from 'cors';
 import { products } from './seeders/products';
+import { Sequelize, Op } from 'sequelize';
 // import fileUpload from 'express-fileupload';
 const app = express(); 
 
@@ -12,6 +13,7 @@ const app = express();
 //     //console.log(p);
 //     db.Product.create(p);
 // })
+
 
 app.use(json());
 app.use(urlencoded({
@@ -32,27 +34,30 @@ app.use((
     req:express.Request,
     res:express.Response, 
     next:express.NextFunction,
-)=>{
-    res.status(500).json({
-        message:err.message
+    )=>{
+        res.status(500).json({
+            message:err.message
+        })
     })
-})
-/***************************************** */
-// app.use(fileUpload({
-//     useTempFiles : true,
-//     tempFileDir : './uploads'
-// }));
-/***************************************** */
-app.use('/api', router); 
-
-db.sequelize.sync().then(()=>{
-    app.listen(3000, ()=>{
-        console.log("Se conecto correctamente");
-    })
-}).catch((e:Error)=>{
-    console.log("here"); 
-    
-    console.log(e.message);  
-})
-
+    /***************************************** */
+    // app.use(fileUpload({
+        //     useTempFiles : true,
+        //     tempFileDir : './uploads'
+        // }));
+        /***************************************** */
+        app.use('/api', router); 
+        
+        db.sequelize.sync().then(()=>{
+            app.listen(3000, ()=>{
+                console.log("Se conecto correctamente");
+            })
+            
+        }).catch((e:Error)=>{
+            console.log("here"); 
+            
+            console.log(e.message);  
+        })
+        
+        
+        
 export default app;

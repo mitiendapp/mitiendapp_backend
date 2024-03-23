@@ -9,7 +9,6 @@ import multer from "multer";
 
 const ROUTER = Router();
 
-// ROUTER.post('/user/register', registerUser); // pendiente de cambiar
 const upload = multer({ dest: './uploads' });
 
 
@@ -20,9 +19,7 @@ ROUTER.post('/user/create', createUser);
 ROUTER.post('/user/update/:email', updateUser);
 ROUTER.post('/user/updateImage/:email',upload.single('profile_image'), updateUserImage);
 ROUTER.post('/user/delete/:email', deleteUser);
-
 ROUTER.get('/test', passport.authenticate("jwt", { session: true }), loginTest); // pendiente de cambiar
-
 ROUTER.get('/test2', verifyJWT, verifyRoles(ROLES_LIST.Admin) , loginTest); // pendiente de cambiar 
 
 
