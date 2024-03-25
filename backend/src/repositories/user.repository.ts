@@ -25,7 +25,7 @@ export class UserRepository implements IUserRepository<UserAttributes, string>{
     }
     async create(payload: any, callback: any): Promise<UserAttributes> {   
         
-        let { document, firstName, lastName, email, roles, password, status } = payload;    
+        let { id ,document, firstName, lastName, email, roles, password, status } = payload;    
         const hashedPassword = await bcrypt.hash(password, 10);
         const alreadyExist = await db.User.findOne({where:{email}});
         if (alreadyExist) {
@@ -37,7 +37,7 @@ export class UserRepository implements IUserRepository<UserAttributes, string>{
 
             };
             const user = await db.User.create({
-                id: document,
+                id: id || document,
                 firstName:firstName,
                 lastName:lastName,
                 email:email,

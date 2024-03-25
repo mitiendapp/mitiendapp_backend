@@ -10,6 +10,7 @@ export const createUser: RequestHandler = async (
     ) => {
     const userService = new UserService();
     try {
+        console.log(req.body)
         const user = await userService.create({...req.body});
         return res.status(201).json(
             {
