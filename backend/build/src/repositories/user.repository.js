@@ -40,7 +40,7 @@ class UserRepository {
     }
     create(payload, callback) {
         return __awaiter(this, void 0, void 0, function* () {
-            let { document, firstName, lastName, email, roles, password, status } = payload;
+            let { id, document, firstName, lastName, email, roles, password, status } = payload;
             const hashedPassword = yield bcrypt_1.default.hash(password, 10);
             const alreadyExist = yield models_1.default.User.findOne({ where: { email } });
             if (alreadyExist) {
@@ -52,7 +52,7 @@ class UserRepository {
                 }
                 ;
                 const user = yield models_1.default.User.create({
-                    id: document,
+                    id: id || document,
                     firstName: firstName,
                     lastName: lastName,
                     email: email,

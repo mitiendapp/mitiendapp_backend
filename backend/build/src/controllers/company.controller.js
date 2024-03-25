@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCompany = exports.updateCompany = exports.getCompanyById = exports.getCompanies = exports.createCompany = void 0;
+exports.getCompanyUsers = exports.deleteCompany = exports.updateCompanyImage = exports.updateCompany = exports.getCompanyById = exports.getCompanies = exports.createCompany = void 0;
 const company_service_1 = require("../services/company.service");
+const cloudinary_1 = require("../../config/cloudinary");
 const createCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const companyService = new company_service_1.CompanyService();
+    // req.body.UserId = req.body.document;
     try {
         const company = yield companyService.create(Object.assign({}, req.body));
         return res.status(201).json({
@@ -76,6 +78,35 @@ const updateCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateCompany = updateCompany;
+const updateCompanyImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const companyService = new company_service_1.CompanyService();
+    try {
+        const { email } = req.params;
+        console.log(email);
+        console.log(req.file);
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+        }
+        const cloudinaryResponse = yield (0, cloudinary_1.uploadImageFondo)(req.file.path);
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
+        const updatedImage = {
+            img: cloudinaryResponse.secure_url // Utiliza la URL de la imagen subida a Cloudinary
+        };
+        const updatedCompany = yield companyService.update(email, updatedImage);
+        return res.status(201).json({
+            message: "Imagen actualizada correctamente",
+            data: updatedCompany
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.updateCompanyImage = updateCompanyImage;
 const deleteCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const companyService = new company_service_1.CompanyService();
     try {
@@ -93,3 +124,18 @@ const deleteCompany = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deleteCompany = deleteCompany;
+const getCompanyUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const companyService = new company_service_1.CompanyService();
+    try {
+        const companies = yield companyService.getCompanyUsers();
+        return res.status(201).json({
+            companies
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+});
+exports.getCompanyUsers = getCompanyUsers;

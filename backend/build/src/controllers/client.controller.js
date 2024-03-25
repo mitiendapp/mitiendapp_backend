@@ -13,6 +13,7 @@ exports.deleteClient = exports.updateClient = exports.getClientById = exports.ge
 const client_service_1 = require("../services/client.service");
 const createClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clientService = new client_service_1.ClientService();
+    req.body.UserId = req.body.document;
     try {
         const client = yield clientService.create(Object.assign({}, req.body));
         return res.status(201).json({

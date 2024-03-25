@@ -4,12 +4,16 @@ import router from './routes/router';
 import { json, urlencoded } from 'body-parser';
 import './auth/passport';
 import cors from 'cors';
-import { products } from './seeders/products';
+import products from './seeders/products';
 import companies from './seeders/companies';
 import { Sequelize, Op } from 'sequelize';
 import bcrypt from 'bcrypt';
 // import fileUpload from 'express-fileupload';
 const app = express();
+
+// CREACIÓN AUTOMÁTICA DE PRODUCTOS Y EMPRENDIMIENTOS
+// 
+// ------------   NO BORRAR  -------------- 
 
 // products.forEach((p)=>{
 //     //console.log(p);
@@ -37,6 +41,10 @@ const app = express();
 //     }
 //     db.Company.create(cc);
 // })
+
+// 
+// ------------   NO BORRAR  -------------- 
+//
 
 app.use(json());
 app.use(urlencoded({

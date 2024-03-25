@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const companies = [
     {
         "document": "02",
@@ -119,6 +121,5 @@ const companies = [
         "password": "12345",
         "confirmPassword": "12345"
     },
-]
-
-export default companies;
+];
+exports.default = companies;

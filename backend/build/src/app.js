@@ -11,10 +11,37 @@ require("./auth/passport");
 const cors_1 = __importDefault(require("cors"));
 // import fileUpload from 'express-fileupload';
 const app = (0, express_1.default)();
+// CREACIÓN AUTOMÁTICA DE PRODUCTOS Y EMPRENDIMIENTOS
+// 
+// ------------   NO BORRAR  -------------- 
 // products.forEach((p)=>{
 //     //console.log(p);
 //     db.Product.create(p);
 // })
+// companies.forEach(async (c: any) => {
+//     let { document, firstName, lastName, email, roles, password, status } = c;
+//     roles = Object.assign({}, { "Company": 4068 });
+//     const passwordHassed = await bcrypt.hash(password, 10);
+//     const u = {
+//         document,
+//         firstName,
+//         lastName,
+//         email,
+//         roles: roles,
+//         password: passwordHassed,
+//         status: status,
+//         id: document
+//     }
+//     db.User.create(u);
+//     const cc = {
+//         ...c,
+//         UserId: c.document
+//     }
+//     db.Company.create(cc);
+// })
+// 
+// ------------   NO BORRAR  -------------- 
+//
 app.use((0, body_parser_1.json)());
 app.use((0, body_parser_1.urlencoded)({
     extended: true

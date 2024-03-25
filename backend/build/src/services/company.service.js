@@ -20,8 +20,9 @@ class CompanyService {
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const company = yield this.companyRepository.create(data, null);
                 yield this.userRepository.create(data, null);
+                const comp = Object.assign(Object.assign({}, data), { UserId: data.document });
+                const company = yield this.companyRepository.create(comp, null);
                 return company;
             }
             catch (error) {
@@ -68,6 +69,17 @@ class CompanyService {
                 const company = yield this.companyRepository.delete(id);
                 yield this.userRepository.delete(id);
                 return company;
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+    }
+    getCompanyUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const companies = yield this.companyRepository.findAllUsers();
+                return companies;
             }
             catch (error) {
                 throw error;

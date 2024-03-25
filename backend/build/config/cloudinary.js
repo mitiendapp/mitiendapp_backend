@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uploadImage = void 0;
+exports.uploadImageFondo = exports.uploadImage = void 0;
 const cloudinary_1 = require("cloudinary");
 cloudinary_1.v2.config({
     cloud_name: 'dn4gw0ghk',
@@ -25,3 +25,11 @@ function uploadImage(filePath) {
     });
 }
 exports.uploadImage = uploadImage;
+function uploadImageFondo(filePath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield cloudinary_1.v2.uploader.upload(filePath, {
+            folder: 'Portada'
+        });
+    });
+}
+exports.uploadImageFondo = uploadImageFondo;

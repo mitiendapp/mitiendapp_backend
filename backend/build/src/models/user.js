@@ -4,7 +4,8 @@ const sequelize_1 = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class User extends sequelize_1.Model {
         static associate(models) {
-            // define association here
+            this.hasOne(models.Company);
+            this.hasOne(models.Client);
         }
     }
     User.init({

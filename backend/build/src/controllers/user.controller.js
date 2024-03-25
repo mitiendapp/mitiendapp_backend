@@ -15,6 +15,7 @@ const cloudinary_1 = require("../../config/cloudinary");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userService = new user_service_1.UserService();
     try {
+        console.log(req.body);
         const user = yield userService.create(Object.assign({}, req.body));
         return res.status(201).json({
             message: "User created succesfully",

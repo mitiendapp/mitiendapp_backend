@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     class Company extends sequelize_1.Model {
         static associate(models) {
             Company.hasMany(models.Product);
+            this.belongsTo(models.User);
         }
     }
     Company.init({
