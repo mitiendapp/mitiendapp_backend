@@ -20,27 +20,27 @@ const app = express();
 //     db.Product.create(p);
 // })
 
-// companies.forEach(async (c: any) => {
-//     let { document, firstName, lastName, email, roles, password, status } = c;
-//     roles = Object.assign({}, { "Company": 4068 });
-//     const passwordHassed = await bcrypt.hash(password, 10);
-//     const u = {
-//         document,
-//         firstName,
-//         lastName,
-//         email,
-//         roles: roles,
-//         password: passwordHassed,
-//         status: status,
-//         id: document
-//     }
-//     db.User.create(u);
-//     const cc = {
-//         ...c,
-//         UserId: c.document
-//     }
-//     db.Company.create(cc);
-// })
+companies.forEach(async (c: any) => {
+    let { document, firstName, lastName, email, roles, password, status } = c;
+    roles = Object.assign({}, { "Company": 4068 });
+    const passwordHassed = await bcrypt.hash(password, 10);
+    const u = {
+        document,
+        firstName,
+        lastName,
+        email,
+        roles: roles,
+        password: passwordHassed,
+        status: status,
+        id: document
+    }
+    db.User.create(u);
+    const cc = {
+        ...c,
+        UserId: c.document
+    }
+    db.Company.create(cc);
+})
 
 // 
 // ------------   NO BORRAR  -------------- 
