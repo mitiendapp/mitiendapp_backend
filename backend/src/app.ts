@@ -5,9 +5,10 @@ import { json, urlencoded } from 'body-parser';
 import './auth/passport';
 import cors from 'cors';
 import products from './seeders/products';
-import companies from './seeders/companies';
+import {companies} from './seeders/companies';
 import { Sequelize, Op } from 'sequelize';
 import bcrypt from 'bcrypt';
+import { CompanyAttributes } from './models/company';
 // import fileUpload from 'express-fileupload';
 const app = express();
 
@@ -20,28 +21,26 @@ const app = express();
 //     db.Product.create(p);
 // })
 
-companies.forEach(async (c: any) => {
-    let { document, firstName, lastName, email, roles, password, status } = c;
-    roles = Object.assign({}, { "Company": 4068 });
-    const passwordHassed = await bcrypt.hash(password, 10);
-    const u = {
-        document,
-        firstName,
-        lastName,
-        email,
-        roles: roles,
-        password: passwordHassed,
-        status: status,
-        id: document
-    }
-    db.User.create(u);
-    const cc = {
-        ...c,
-        UserId: c.document
-    }
-    db.Company.create(cc);
-})
-
+// companies.forEach(async (c: any) => {
+//     let { document, firstName, lastName, email, password} = c;
+//     const roles = Object.assign({}, { "Company": 4068 });
+//     const passwordHassed = await bcrypt.hash(password, 10);
+//     const u = {
+//         document,
+//         firstName,
+//         lastName,
+//         email,
+//         roles: roles,
+//         password: passwordHassed,
+//         id: document
+//     }
+//     db.User.create(u);
+//     const cc = {
+//         ...c,
+//         UserId: c.document
+//     }
+//     db.Company.create(cc);
+// })
 // 
 // ------------   NO BORRAR  -------------- 
 //

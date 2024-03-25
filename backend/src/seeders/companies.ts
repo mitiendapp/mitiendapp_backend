@@ -1,4 +1,4 @@
-const companies = [
+export  const  companies = [
     {
         "document": "02",
         "firstName": "Maria",
@@ -120,5 +120,3 @@ const companies = [
         "confirmPassword": "12345"
     },
 ]
-
-export default companies;

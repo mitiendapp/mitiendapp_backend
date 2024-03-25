@@ -29,24 +29,24 @@ const app = (0, express_1.default)();
 //     //console.log(p);
 //     db.Product.create(p);
 // })
-companies_1.default.forEach((c) => __awaiter(void 0, void 0, void 0, function* () {
-    let { document, firstName, lastName, email, roles, password, status } = c;
-    roles = Object.assign({}, { "Company": 4068 });
-    const passwordHassed = yield bcrypt_1.default.hash(password, 10);
-    const u = {
-        document,
-        firstName,
-        lastName,
-        email,
-        roles: roles,
-        password: passwordHassed,
-        status: status,
-        id: document
-    };
-    index_1.default.User.create(u);
-    const cc = Object.assign(Object.assign({}, c), { UserId: c.document });
-    index_1.default.Company.create(cc);
-}));
+// companies_1.default.forEach((c) => __awaiter(void 0, void 0, void 0, function* () {
+//     let { document, firstName, lastName, email, roles, password, status } = c;
+//     roles = Object.assign({}, { "Company": 4068 });
+//     const passwordHassed = yield bcrypt_1.default.hash(password, 10);
+//     const u = {
+//         document,
+//         firstName,
+//         lastName,
+//         email,
+//         roles: roles,
+//         password: passwordHassed,
+//         status: status,
+//         id: document
+//     };
+//     index_1.default.User.create(u);
+//     const cc = Object.assign(Object.assign({}, c), { UserId: c.document });
+//     index_1.default.Company.create(cc);
+// }));
 // 
 // ------------   NO BORRAR  -------------- 
 //
