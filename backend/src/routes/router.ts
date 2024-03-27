@@ -7,8 +7,13 @@ const CART_ROUTES = require('./cart.routes');
 const COMPANY_ROUTES=require('./company.routes');
 const CORREO_ROUTES=require('./correo.routes');
 const CORREO_ROUTESCOMPANY=require('./correoCompany.routes')
+const CORREO_MASIVO=require('./correosMasivos.routes')
 const router = Router();
 
+
+
+//route correo masivo
+router.use(CORREO_MASIVO)
 //route correo company
 router.use(CORREO_ROUTESCOMPANY)
 //route correo cliente
