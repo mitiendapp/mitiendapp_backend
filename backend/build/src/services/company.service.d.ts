@@ -8,4 +8,5 @@ export declare class CompanyService {
     find(id: any): Promise<CompanyAttributes>;
     update(id: any, data: any): Promise<CompanyAttributes>;
     delete(id: any): Promise<CompanyAttributes>;
+    getCompanyUsers(): Promise<CompanyAttributes>;
 }

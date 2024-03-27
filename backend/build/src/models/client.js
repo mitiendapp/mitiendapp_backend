@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     class Client extends sequelize_1.Model {
         static associate(models) {
             // define association here
+            this.belongsTo(models.User);
         }
     }
     Client.init({

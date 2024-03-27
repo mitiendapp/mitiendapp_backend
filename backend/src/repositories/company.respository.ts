@@ -1,5 +1,6 @@
 import { CompanyAttributes } from "../models/company";// tabla de creación
 import ICompanyRepository from "./interfaces/company.repository.interface";// interfaces, que son promesas
+import { Sequelize, Op } from "sequelize";
 import db from "../models"; // conexion
 import bcrypt from 'bcrypt';
 
@@ -57,6 +58,22 @@ export class CompanyRepository implements ICompanyRepository<CompanyAttributes, 
             return companyDeleted;
         } catch (error) {
             throw new Error("Can't delete company");
+        }
+    }
+    async findAllUsers():Promise<any>{
+        try {
+            const companies: any = db.Company.findAll({
+                include: [{
+                    model: db.User,
+                    required: true,
+                    where: {
+                        id: { [Op.eq]: Sequelize.col('Company.document') }
+                    }
+                }]
+            })
+            return companies;
+        } catch (error) {
+            throw new Error('Cant fetch company users');
         }
     }
 

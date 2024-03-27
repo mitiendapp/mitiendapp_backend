@@ -31,7 +31,8 @@ module.exports = (sequelize:any, DataTypes:any) => {
     profile_image?: string | undefined;
 
     static associate(models:any) {
-      // define association here
+      this.hasOne(models.Company);
+      this.hasOne(models.Client);
     }
   }
   User.init({

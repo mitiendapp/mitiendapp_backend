@@ -32,6 +32,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
 
     static associate(models: any) {
       Company.hasMany(models.Product);
+      this.belongsTo(models.User);
     }
   }
   Company.init({

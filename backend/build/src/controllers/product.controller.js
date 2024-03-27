@@ -45,19 +45,38 @@ const deleteProductHandler = (req, res, next) => __awaiter(void 0, void 0, void 
     });
 });
 exports.deleteProductHandler = deleteProductHandler;
+/*prueba busqueda solo un producto */
 const updateProductHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.body.id;
-    if (!id) {
-        return res.status(400).json({
-            message: "Id missing"
+    try {
+        const id = req.body.id;
+        if (!id) {
+            return res.status(400).json({
+                message: "Id missing"
+            });
+        }
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se ha cargado ninguna imagen' });
+        }
+        console.log(req.file);
+        //   const adaptar = adaptarNameImage(req.file.path)
+        // Carga la imagen en Cloudinary
+        const cloudinaryResponse = yield (0, cloudinary_1.uploadImage)(req.file.path);
+        // Verifica si la carga en Cloudinary fue exitosa
+        if (!cloudinaryResponse || !cloudinaryResponse.secure_url) {
+            return res.status(500).json({ message: 'Error al cargar la imagen en Cloudinary' });
+        }
+        yield models_1.default.Product.update(Object.assign(Object.assign({}, req.body), { image: cloudinaryResponse.secure_url }), { where: { id } });
+        const product = yield models_1.default.Product.findByPk(id);
+        return res.status(200).json({
+            message: "Product updated succesfully",
+            data: product
         });
     }
-    yield models_1.default.Product.update(Object.assign({}, req.body), { where: { id } });
-    const product = yield models_1.default.Product.findByPk(id);
-    return res.status(200).json({
-        message: "Product updated succesfully",
-        data: product
-    });
+    catch (error) {
+        // Manejo de errores
+        console.error(error);
+        return res.status(500).json({ message: 'Ocurrió un error interno' });
+    }
 });
 exports.updateProductHandler = updateProductHandler;
 const getProductById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

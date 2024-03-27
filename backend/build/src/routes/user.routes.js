@@ -12,7 +12,6 @@ const verifyRoles_1 = require("../middlewares/verifyRoles");
 const role_list_1 = __importDefault(require("../../config/role.list"));
 const multer_1 = __importDefault(require("multer"));
 const ROUTER = (0, express_1.Router)();
-// ROUTER.post('/user/register', registerUser); // pendiente de cambiar
 const upload = (0, multer_1.default)({ dest: './uploads' });
 ROUTER.post('/user/login', auth_controller_1.loginUser); // pendiente de cambiar
 ROUTER.get('/users', user_controller_1.getUsers);

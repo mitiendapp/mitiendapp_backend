@@ -1,7 +1,10 @@
-export declare const products: {
+declare const products: {
     name: string;
     description: string;
     price: string;
     image: string;
-    stock: string;
+    stock: number;
+    category: string;
+    companyDocument: string;
 }[];
+export default products;

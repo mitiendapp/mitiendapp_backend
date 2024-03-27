@@ -20,8 +20,9 @@ class ClientService {
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const client = yield this.clientRepository.create(data, null);
                 yield this.userRepository.create(data, null);
+                const cli = Object.assign(Object.assign({}, data), { UserId: data.document });
+                const client = yield this.clientRepository.create(cli, null);
                 return client;
             }
             catch (error) {

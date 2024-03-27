@@ -8,6 +8,7 @@ export const createClient: RequestHandler = async (
     res:Response,
     ) => {
     const clientService = new ClientService();
+    req.body.UserId = req.body.document;
     try {
         const client = await clientService.create({...req.body});
         return res.status(201).json(

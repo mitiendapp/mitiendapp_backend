@@ -6,4 +6,5 @@ export declare class CompanyRepository implements ICompanyRepository<CompanyAttr
     create(payload: any, callback: any): Promise<CompanyAttributes>;
     update(email: string, payload: any): Promise<CompanyAttributes>;
     delete(email: string): Promise<CompanyAttributes>;
+    findAllUsers(): Promise<any>;
 }
